@@ -274,8 +274,6 @@ compress_html:
   ignore:
     envs: development
 
-include: ["_pages"]
-
 # Defaults
 defaults:
   # _posts
@@ -289,3 +287,4 @@ defaults:
       comments: # true
       share: true
       related: true
+      permalink: true
