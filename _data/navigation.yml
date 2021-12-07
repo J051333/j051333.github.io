@@ -1,7 +1,7 @@
 # main links
 main:
   - title: "404"
-    url: /404/
+    url: /404.md/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
