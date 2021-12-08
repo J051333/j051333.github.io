@@ -291,4 +291,3 @@ defaults:
       permalink: true
 
 future: true
-include: ["_posts", "_pages"]
