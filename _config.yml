@@ -278,7 +278,7 @@ compress_html:
 defaults:
   # _posts
   - scope:
-      path: "_posts"
+      path: ""
       type: posts
     values:
       layout: single
@@ -288,3 +288,5 @@ defaults:
       share: true
       related: true
       permalink: true
+
+include: ["_posts", "_pages"]
