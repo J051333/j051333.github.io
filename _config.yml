@@ -289,4 +289,5 @@ defaults:
       related: true
       permalink: true
 
+future: true
 include: ["_posts", "_pages"]

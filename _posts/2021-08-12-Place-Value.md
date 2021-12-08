@@ -1,5 +1,6 @@
 ---
 title: "Place Value"
+published: true
 categories:
   - Tools
 tags:
