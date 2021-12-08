@@ -1,6 +1,7 @@
 ---
 title: "Place Value"
 published: true
+type: posts
 categories:
   - Tools
 tags:
