@@ -1,1 +1,1 @@
-# Hi, this is the repository for my GitHut Pages site.
+# Hi, this is the repository for my GitHub Pages site.
