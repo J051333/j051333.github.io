@@ -18,7 +18,7 @@ minimal_mistakes_skin    : "neon" # "air", "aqua", "contrast", "dark", "dirt", "
 locale                   : "en-US"
 title                    : "Josi's Projects"
 title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
+subtitle                 : "I make things sometimes" # site tagline that appears below site title in masthead
 name                     : "J051333"
 description              : "Programmer of things c:"
 url                      : "https://j051333.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
@@ -71,7 +71,7 @@ google:
   search_engine_id       : # YOUR_SEARCH_ENGINE_ID
   instant_search         : # false (default), true
 # SEO Related
-google_site_verification :
+google_site_verification : X7XAYicxkv7GDpYWKGhYbl1IMim_h4GYnuNaO6rgoDs
 bing_site_verification   :
 naver_site_verification  :
 yandex_site_verification :
