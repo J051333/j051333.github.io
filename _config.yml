@@ -104,6 +104,7 @@ analytics:
 author:
   name             : "Josi Whitlock"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  pronouns         : "She/Her"
   bio              : "I am a 17 year old programmer. I've been programming for nine years."
   location         : "Birmingham, Alabama"
   email            :
