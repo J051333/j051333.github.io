@@ -176,6 +176,18 @@
   font-family: $sans-serif;
   font-size: $type-size-5;
 }
+.author__pronouns {
+  margin: 0;
+
+  @include breakpoint($large) {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+}
+.sidebar .author__pronouns {
+  font-family: $sans-serif;
+  font-size: $type-size-2;
+}
 
 .author__bio {
   margin: 0;
