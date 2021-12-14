@@ -16,7 +16,7 @@
       <a class="u-url" rel="me" href="{{ author.home | default: '/' | absolute_url }}" itemprop="url">{{ author.name }}</a>
     </h3>
     {% if author.pronouns %}
-      <div class="author__pronouns p-note" itemprop="pronouns">
+      <div class="author__pronouns" itemprop="pronouns">
         {{ author.pronouns | markdownify }}
       </div>
     {% endif %}
