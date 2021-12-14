@@ -167,10 +167,10 @@
 .author__name {
   margin: 0;
 
-  @include breakpoint($large) {
-    margin-top: 10px;
-    margin-bottom: 5px;
-  }
+  // @include breakpoint($large) {
+  //   margin-top: 10px;
+  //   margin-bottom: 5px;
+  // }
 }
 .sidebar .author__name {
   font-family: $sans-serif;
