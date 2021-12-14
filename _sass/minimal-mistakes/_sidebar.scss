@@ -181,10 +181,10 @@
   margin: 0;
   font-size: x-small;
 
-  @include breakpoint($large) {
-    margin-top: 0px;
-    margin-bottom: 20px;
-  }
+  // @include breakpoint($large) {
+  //   margin-top: 0px;
+  //   margin-bottom: 20px;
+  // }
 }
 
 .author__bio {
