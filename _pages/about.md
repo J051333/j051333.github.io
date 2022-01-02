@@ -2,9 +2,9 @@
 - scope:
       path: ""
       type: pages
-    values:
-      layout: single
-      author_profile: true
+    
+layout: single
+author_profile: true
 ---
 
 # Who is Josi?
