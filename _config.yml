@@ -16,9 +16,9 @@ minimal_mistakes_skin    : "neon" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Josi's Projects"
+title                    : "Josi Whitlock"
 title_separator          : "-"
-subtitle                 : "I make things sometimes" # site tagline that appears below site title in masthead
+subtitle                 : "Dev girl" # site tagline that appears below site title in masthead
 name                     : "J051333"
 description              : "Programmer of things c:"
 url                      : "https://j051333.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"

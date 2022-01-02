@@ -13,7 +13,7 @@ tags:
   - Governor's App Challenge
 ---
 
-The first beta release of my place value visualizer has been released!
+The first beta release of the Place Value Visualizer has been released!
 
 This is a tool that uses unit blocks to represent different values in a base ten system.
 
