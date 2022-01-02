@@ -1,8 +1,5 @@
 ---
-- scope:
-      path: ""
-      type: pages
-    
+title: "About Me"
 layout: single
 author_profile: true
 ---
