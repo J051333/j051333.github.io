@@ -4,7 +4,7 @@ layout: single
 author_profile: true
 ---
 
-# Who is Josi?
+## Who is Josi?
 
 ### Professional Information
 
