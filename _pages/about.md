@@ -14,7 +14,7 @@ Josi is an entry-level software developer with a proficiency in Java and an inte
 
 ##### General
 
-Josi is a seventeen-year-old software developer. She has been programming for around eight years in a multitude of languages, including [JavaScript](https://en.wikipedia.org/wiki/JavaScript), [Java](https://en.wikipedia.org/wiki/Java_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B), [C#](https://en.wikipedia.org/wiki/C_Sharp_(programming_language)), and more. She has a deep passion for technology and learning. She lives in Alabama and is currently attending high school and an attached trade school for comptuer science. She also loves cats.
+Josi is a seventeen-year-old software developer. She has been programming for around eight years in a multitude of languages, including [JavaScript](https://en.wikipedia.org/wiki/JavaScript), [Java](https://en.wikipedia.org/wiki/Java_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B), [C#](https://en.wikipedia.org/wiki/C_Sharp_(programming_language)), and more. She has a deep passion for technology and learning. She lives in Alabama and is currently attending high school and an attached trade school for computer science. She also loves cats.
 
 ##### Values
 
