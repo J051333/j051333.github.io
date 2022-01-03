@@ -1,10 +1,8 @@
 ---
-title: "About Me"
+title: "Who is Josi?"
 layout: single
 author_profile: true
 ---
-
-## Who is Josi?
 
 ### Professional Information
 
@@ -20,4 +18,4 @@ Josi is a seventeen-year-old software developer. She has been programming for ar
 
 ##### Values
 
-Josi is a proud promoter of [gender equality](https://en.wikipedia.org/wiki/Gender_equality), [BLM](https://en.wikipedia.org/wiki/Black_Lives_Matter), and [LGBTQ+](https://en.wikipedia.org/wiki/LGBT) rights. She also strongly believes in mutual respect and proper treatment and respect for mental-health, as Josi herself suffers form depression and anxiety.
+Josi is a proud promoter of [gender equality](https://en.wikipedia.org/wiki/Gender_equality), [BLM](https://en.wikipedia.org/wiki/Black_Lives_Matter), and [LGBTQ+](https://en.wikipedia.org/wiki/LGBT) rights. She also strongly believes in mutual respect and proper treatment and respect for mental-health, as Josi herself suffers from depression and anxiety.
