@@ -63,7 +63,7 @@ The installation and `JAVA_HOME` instructions are for Windows 10 and 11.
 
 Once you download the JDK for your respective operating system, you'll be led through the setup wizard. 
 
-<div class="warning">
+<div class="notice--warning">
   The system path that the JDK is installed to will be important if <code>JAVA_HOME</code> isn't set correctly by default.
   <div align="center">
     <img src="/assets/imgs/JDK-1.png" width=600 style="border-radius: 10px"/>
