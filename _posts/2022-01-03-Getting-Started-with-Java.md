@@ -58,16 +58,77 @@ Now that you have an IDE, you need a Java Development Kit, or JDK. A JDK contain
 
 At the time of writing, the most recent JDK available is [JDK 17.0.1](https://www.oracle.com/java/technologies/downloads/). You may be prompted about a [Java SE Subscription](https://www.oracle.com/java/java-se-subscription/), but you don't need one to code in Java.
 
-From this point forward, the installation and JAVA_HOME instructions are for Windows 10 and 11.
+The installation and `JAVA_HOME` instructions are for Windows 10 and 11.
 {: .notice--info}
 
 Once you download the JDK for your respective operating system, you'll be led through the setup wizard. 
 
 <div class="warning">
-  <p>
-    The system path that the JDK is installed to will be important if JAVA_HOME isn't set correctly by default.
-  </p>
+  The system path that the JDK is installed to will be important if <code>JAVA_HOME</code> isn't set correctly by default.
   <div align="center">
     <img src="/assets/imgs/JDK-1.png" width=600 style="border-radius: 10px"/>
   </div>
 </div>
+
+Once you've installed the JDK, open the command prompt and enter `java -version`. If this returns the version you've installed, you're good to go. If it errors or returns a different version, press `Win`+`S` and type `env`. This should bring up the System Properties window.
+
+<div align="center">
+  <img src="/assets/imgs/JDK-2.png" width=600 style="border-radius: 10px"/>
+</div>
+
+From there, press `Environment Variables...`. Check the lists presented for `JAVA_HOME` and make sure it's set to the path you installed the JDK to.
+
+<div align="center">
+  <img src="/assets/imgs/JDK-3.png" width=600 style="border-radius: 10px"/>
+</div>
+
+## Creating a Java Project
+
+The Java project instructions are for IntelliJ IDEA, but can be applied to many other IDEs with minimal effort.
+{: .notice--info}
+
+To create a new Java project, navigate to `File -> New -> Project`
+
+<div align="center">
+  <img src="/assets/imgs/JDK-4.png" width=600 style="border-radius: 10px"/>
+</div>
+
+Make sure that the project type is Java and the JDK is the version you installed.
+
+<div align="center">
+  <img src="/assets/imgs/JDK-5.png" width=600 style="border-radius: 10px"/>
+</div>
+
+Then, give the project a name and click `Finish`.
+
+In the blank project, you should have a folder called `src`. Right-click this and select `New -> Java Class`. Give the class a name and create the file.
+
+Java Classes must begin with a capital letter.
+{: .notice--info}
+
+Add text so your code resembles the following:
+
+```java
+public class Main {
+
+  public static void main(String[] args) {
+
+  }
+
+}
+```
+
+`public static void main(String[] args)` is the entry point of your new application called the main method. `String[] args` is a parameter used to pass command line arguments to your program. Inside of your main method, add the following line:
+
+```java
+System.out.println("Hi Shivercream Jacket");
+```
+
+There should be a green arrow beside your main method. Click that and select `Run 'Main.main()'`. You should see the program compile and then a panel pop up with the output `Hi Shivercream Jacket`. 
+
+For VSCode users, right-click in the empty space of the editor window and press `Run Java`.
+{: .notice--info}
+
+You've now written and run your first Java program. Good job! 
+
+Next, maybe work on figuring out what the keywords in the main method mean.
