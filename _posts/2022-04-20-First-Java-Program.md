@@ -168,7 +168,7 @@ All of these have their own meanings, and we'll get to that when we go over vari
 
 `String`s are collections of characters that represent text. Text surrounded in double quotes is what we call a `String` literal (ex. `"hi there"`). `int`s, short for integer, store numbers. They can't store decimal points (floating point values) though. Therefore `1` would be a valid `int` literal while `1.023` would not.
 
-That's why our [<u>`add()`</u>](#add-method) method uses the return type `int`.
+That's why our [`add()`](#add-method) method uses the return type `int`.
 
 But say we wanted to add two strings together and return the result? We can do that too:
 
