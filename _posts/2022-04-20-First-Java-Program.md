@@ -60,19 +60,19 @@ Now, we run it! To do so, you can either use your IDE's run tool or run it using
 
 To run your program with the command line, `cd` to the path of your project:
 
-```bash
+```
 cd "C:\Users\%username%\Documents\%project-source-folder%"
 ```
 
 Compile your program using the `javac` command.
 
-```bash
+```
 javac Main.java
 ```
 
 This will compile your code down to java bytecode, or code that the Java Virtual Machine (JVM) can read. Then to run it, use the `java` command on the newly generated `Main.class` file:
 
-```bash
+```
 java Main.class
 ```
 
