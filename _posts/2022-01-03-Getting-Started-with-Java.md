@@ -101,34 +101,4 @@ Make sure that the project type is Java and the JDK is the version you installed
 
 Then, give the project a name and click `Finish`.
 
-In the blank project, you should have a folder called `src`. Right-click this and select `New -> Java Class`. Give the class a name and create the file.
-
-Java Classes must begin with a capital letter.
-{: .notice--info}
-
-Add text so your code resembles the following:
-
-```java
-public class Main {
-
-  public static void main(String[] args) {
-
-  }
-
-}
-```
-
-`public static void main(String[] args)` is the entry point of your new application called the main method. `String[] args` is a parameter used to pass command line arguments to your program. Inside of your main method, add the following line:
-
-```java
-System.out.println("Hi Shivercream Jacket");
-```
-
-There should be a green arrow beside your main method. Click that and select `Run 'Main.main()'`. You should see the program compile and then a panel pop up with the output `Hi Shivercream Jacket`. 
-
-For VSCode users, right-click in the empty space of the editor window and press `Run Java`.
-{: .notice--info}
-
-You've now written and run your first Java program. Good job! 
-
-Next, maybe work on figuring out what the keywords in the main method mean.
+And that's it! Now you have your first (albeit blank) Java project! Now, [let's populate it!](/_posts/2022-04-20-First-Java-Program.md)
