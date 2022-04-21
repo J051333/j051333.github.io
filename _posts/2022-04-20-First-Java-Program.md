@@ -84,7 +84,7 @@ Alright, now that we've written some code, lets talk about what that code means.
 
 Starting with the keyword `class`. A class is a blueprint for an information container. Say you wanted to represent an animal in code. You'd create an `Animal` class that would hold things like the animal's name, sex, species, size, and so on. 
 
-In our program, though, `class` isn't the first keyword we see. `public` is. `public` is one of many of what we call access specifiers or access modifiers. These change what can see the class, field, or method.
+In our program, though, `class` isn't the first keyword we see. First, we see `public`; one of many of what we call access specifiers or access modifiers. These change what can see the class, field, or method.
 
 ### Methods
 
