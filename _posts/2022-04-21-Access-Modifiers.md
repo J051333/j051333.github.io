@@ -30,5 +30,3 @@ Any `protected` member can be referenced anywhere in the package it belongs to.
 Any member without a modifier can be seen anywhere in the package it belongs to other than subclasses.
 
 Any `private` member can be referenced only within the class it belongs to.
-
-### Examples
