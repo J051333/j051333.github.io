@@ -12,8 +12,6 @@ tags:
 
 ## Access Modifiers
 
-<a name="i"> </a>
-
 Access modifiers control what can access class members. Java has the following access modifiers:
 
 |Specifier|Class|Package|Subclass|Everything|
