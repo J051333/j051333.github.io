@@ -17,10 +17,7 @@ function setup() {
     var cookieParts = getCookie("cookieParts");
 
     // Double tilde drops any decimal and casts string to int
-    if (cookieParts == "") {
-        slider.value = 100;
-        parts = slider.value;
-    } else if (!isNaN(cookieParts)) {
+    if (!isNaN(cookieParts) && cookieParts != "") {
         slider.value = ~~cookieParts;
         parts = slider.value;
     }
@@ -28,7 +25,6 @@ function setup() {
     slider.oninput = function () {
         parts = this.value;
         resetSketch();
-        setCookie("cookieParts", parts, 60);
     }
 
     resetSketch();
@@ -95,6 +91,7 @@ function getCookie(cname) {
 }
 
 function resetSketch() {
+    setCookie("cookieParts", parts, 60);
     particles = [];
     for (let i = 0; i < parts; i++) {
         particles.push(new Particle(random(width), random(height)));
