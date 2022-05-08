@@ -17,7 +17,10 @@ function setup() {
     var cookieParts = getCookie("cookieParts");
 
     // Double tilde drops any decimal and casts string to int
-    if (!isNaN(cookieParts)) {
+    if (cookieParts == "") {
+        slider.value = 100;
+        parts = slider.value;
+    } else if (!isNaN(cookieParts)) {
         slider.value = ~~cookieParts;
         parts = slider.value;
     }
