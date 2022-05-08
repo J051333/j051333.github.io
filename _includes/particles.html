@@ -1,1 +1,65 @@
+{% if page.layout == archive %}
+    <script>alert("home");</script>
+{% endif %}
+
+<style>
+    .slidecontainer {
+        line-height: 0px;
+        width: 100%;
+    }
+
+    /* The slider itself */
+    .slider {
+        padding: 0;
+        vertical-align: top;
+        margin: 0;
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        border-radius: 0%;
+        height: 5px;
+        background: #5c5c5c;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+        opacity: 1;
+        /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        /* Override default look */
+        appearance: none;
+        width: 40px;
+        /* Set a specific slider handle width */
+        height: 5px;
+        /* Slider handle height */
+        background: #c89fff;
+        /* Green background */
+        cursor: pointer;
+        /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+        width: 40px;
+        /* Set a specific slider handle width */
+        height: 5px;
+        /* Slider handle height */
+        background: #c89fff;
+        /* Green background */
+        cursor: pointer;
+        /* Cursor on hover */
+    }
+</style>
+
+<div class="slidecontainer">
+    <input type="range" min="0" max="200" value="100" class="slider" id="particles">
+</div>
+
 <script src="/assets/js/particles/particles.js"></script>
