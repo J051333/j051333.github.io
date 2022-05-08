@@ -1,6 +1,7 @@
 var canvas;
 var particles = [];
 var colors;
+p5.disableFriendlyErrors = true;
 
 function setup() {
     canvas = createCanvas(document.body.offsetWidth, windowHeight - document.querySelector('#mastheadDiv').offsetHeight);
