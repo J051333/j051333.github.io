@@ -8,6 +8,7 @@ categories:
 tags:
   - Java
   - Programming
+particles: true
 ---
 
 ## Starting off

@@ -8,6 +8,7 @@ categories:
 tags:
   - Java
   - Setup
+particles: true
 ---
 
 ## Picking your IDE

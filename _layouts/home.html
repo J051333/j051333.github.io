@@ -1,6 +1,12 @@
 ---
 layout: archive
 ---
+{% if page.particles %}
+  {% include particles.html %}
+  <script>
+    console.log("particles");
+  </script>
+{% endif %}
 
 {{ content }}
 

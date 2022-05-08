@@ -11,6 +11,7 @@ tags:
   - Unity
   - C#
   - Governor's App Challenge
+particles: true
 ---
 
 The first beta release of the Place Value Visualizer has been released!
