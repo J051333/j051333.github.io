@@ -1,17 +1,34 @@
 var canvas;
-var particles = [];
+var particles;
 var colors;
+var slider;
+var parts = 100;
+
 p5.disableFriendlyErrors = true;
 
 function setup() {
     canvas = createCanvas(document.body.offsetWidth, document.documentElement.scrollHeight - document.querySelector('#mastheadDiv').offsetHeight - document.querySelector('#footer').offsetHeight);
     canvas.position(0, document.querySelector('#mastheadDiv').offsetHeight);
     canvas.style("z-index", "-9999");
-    colors = [color(86, 159, 232, 10), color(161, 96, 235, 10), color(237, 166, 235, 10), color(166, 237, 218, 10)];
+    colors = [ color(86, 159, 232, 10), color(161, 96, 235, 10), color(237, 166, 235, 10), color(166, 237, 218, 10) ];
 
-    for (let i = 0; i < 100; i++) {
-        particles.push(new Particle(random(width), random(height)));
+    slider = document.querySelector("#particles");
+
+    var cookieParts = getCookie("cookieParts");
+
+    // Double tilde drops any decimal and casts string to int
+    if (!isNaN(cookieParts)) {
+        slider.value = ~~cookieParts;
+        parts = slider.value;
     }
+
+    slider.oninput = function () {
+        parts = this.value;
+        resetSketch();
+        setCookie("cookieParts", parts, 60);
+    }
+
+    resetSketch();
 }
 
 function draw() {
@@ -51,8 +68,43 @@ function draw() {
     }
 }
 
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function resetSketch() {
+    particles = [];
+    for (let i = 0; i < parts; i++) {
+        particles.push(new Particle(random(width), random(height)));
+    }
+}
+
 function newGoal() {
     return new p5.Vector(random(width), random(height));
+}
+
+function windowResized() {
+    resizeCanvas(document.body.getBoundingClientRect().width, document.documentElement.scrollHeight - document.querySelector('#mastheadDiv').offsetHeight - document.querySelector('#footer').offsetHeight);
+    canvas.position(0, document.querySelector('#mastheadDiv').offsetHeight);
 }
 
 class Particle {
