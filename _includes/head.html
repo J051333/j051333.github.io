@@ -13,9 +13,23 @@
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three":
+        "https://cdn.jsdelivr.net/npm/three@0.140.0/build/three.module.js",
+      "gltfloader":
+        "https://cdn.jsdelivr.net/npm/three@0.140.0/examples/jsm/loaders/GLTFLoader.js"
+    }
+  }
+</script>
+
 <!-- For all browsers -->
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
 
 {% if site.head_scripts %}
