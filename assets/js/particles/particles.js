@@ -4,7 +4,7 @@ var colors;
 p5.disableFriendlyErrors = true;
 
 function setup() {
-    canvas = createCanvas(document.body.offsetWidth, windowHeight - document.querySelector('#mastheadDiv').offsetHeight);
+    canvas = createCanvas(document.body.offsetWidth, document.documentElement.scrollHeight - document.querySelector('#mastheadDiv').offsetHeight - document.querySelector('#footer').offsetHeight);
     canvas.position(0, document.querySelector('#mastheadDiv').offsetHeight);
     canvas.style("z-index", "-9999");
     colors = [color(86, 159, 232, 10), color(161, 96, 235, 10), color(237, 166, 235, 10), color(166, 237, 218, 10)];
