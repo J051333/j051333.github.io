@@ -2,10 +2,10 @@
 main:
   - title: "Place Value"
     url: /tools/projects/Place-Value/
+  - title: "Ambience"
+    url: /_pages/ambience/
   - title: "About"
     url: /_pages/about/
-  # - title: "Sample Posts"
-  #   url: /year-archive/
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"
