@@ -9,7 +9,7 @@ particles: true
 
 Pages designed to be nothing but nice smooth animations and simulations (kinda like the background of this page!)
 
-<a href="/assets/pages/ambientLineParticles.html" class="btn btn--primary">Dots and Lines</a>
+<a href="/_pages/ambientLineParticles.html" class="btn btn--primary">Dots and Lines</a>
 
 <!--
 <script type="module">
