@@ -11,11 +11,12 @@ particles: true
   var canvas;
   var particles;
   var colors;
-  var slider;
-  var parts = 10;
+  const parts = 10;
   var bg = 0;
+  const sizeChangeRange = 0.1;
   var sizeOffset = 1;
   var lineOffset = 1;
+  var time = 0;
 
   p5.disableFriendlyErrors = true;
 
@@ -25,7 +26,7 @@ particles: true
     canvas.position(0, 0);
 
     // DEBUG //
-    //frameRate(12);
+    //frameRate(65);
     // DEBUG //
 
     colorMode(HSB);
@@ -38,6 +39,14 @@ particles: true
     ];
 
     resetSketch();
+  }
+
+  function draw() {
+    doTime();
+
+    background(bg);
+
+    particleLoop();
   }
 
   function doubleClicked() {
@@ -58,51 +67,6 @@ particles: true
     resizeCanvas(windowWidth, windowHeight);
   }
 
-  function draw() {
-    background(bg);
-    for (let i = 0; i < particles.length; i++) {
-      p = particles[i];
-      if (p.time / p.speed <= 1) {
-        p.time += (0.01 + p.moveSpeed) * deltaTime;
-
-        if (p.time / p.speed <= 0.5) {
-          p.moveSpeed = lerp(0, p.maxSpeed, p.time / p.speed);
-        } else {
-          p.moveSpeed = lerp(p.maxSpeed, 0, p.time / p.speed);
-        }
-
-        p.x = lerp(p.ox, p.v.x, p.time / p.speed);
-        p.y = lerp(p.oy, p.v.y, p.time / p.speed);
-      } else {
-        p.v = newGoal();
-        p.ox = p.x;
-        p.oy = p.y;
-        p.time = 0;
-        p.maxSpeed = random(0.1, 2);
-        p.moveSpeed = 0;
-      }
-
-      stroke(p.color);
-      strokeWeight(50 * sizeOffset);
-      point(p.x, p.y);
-      strokeWeight(40 * sizeOffset);
-      point(p.x, p.y);
-      strokeWeight(30 * sizeOffset);
-      point(p.x, p.y);
-      strokeWeight(20 * sizeOffset);
-      point(p.x, p.y);
-
-      for (let j = 0; j < particles.length; j++) {
-        let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
-        if (i != j && d < 250) {
-          stroke(178, 67, 81, (250 - d) / 250);
-          strokeWeight(4 * lineOffset);
-          line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
-        }
-      }
-    }
-  }
-
   function keyPressed() {
     if (keyCode == 32) {
       if (bg == 0) bg = 255;
@@ -112,6 +76,12 @@ particles: true
     } else if (keyCode == LEFT_ARROW || keyCode == DOWN_ARROW) {
       lineOffset -= .1;
       if (lineOffset < 0) lineOffset = 0;
+    } else if (keyCode == 191) {
+      window.alert(`Controls:
+        Space: change background
+        Arrow Keys: line size
+        Mouse Wheel: circle size
+        Double Click: fullscreen`);
     }
   }
 
@@ -124,6 +94,43 @@ particles: true
     particles = [];
     for (let i = 0; i < parts; i++) {
       particles.push(new Particle(random(width), random(height)));
+    }
+  }
+
+  function doTime() {
+    time += 0.015;
+
+    // Make sure time doesnt get too big
+    if (time == 360) {
+      time = 0;
+    }
+  }
+
+  function particleLoop() {
+    for (let i = 0; i < particles.length; i++) {
+      p = particles[i];
+      if (p.time / p.speed <= 1) {
+        p.move();
+      } else {
+        p.reachedPoint();
+      }
+
+      p.drawSelf();
+
+      if (lineOffset > 0) {
+        drawLines(i);
+      }
+    }
+  }
+
+  function drawLines(i) {
+    for (let j = 0; j < particles.length; j++) {
+      let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+      if (i != j && d < 250) {
+        stroke(178, 67, 81, (250 - d) / 250);
+        strokeWeight(4 * lineOffset);
+        line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+      }
     }
   }
 
@@ -141,10 +148,41 @@ particles: true
       this.speed = 2000;
       this.time = 0;
       this.color = random(colors);
-      this.baseColor = this.color;
-      this.colorPhase = 1;
       this.maxSpeed = random(0.1, 2);
       this.moveSpeed = 0;
+      this.timeOffset = random(0, 5);
+    }
+
+    reachedPoint() {
+      this.v = newGoal();
+      this.ox = this.x;
+      this.oy = this.y;
+      this.time = 0;
+      this.maxSpeed = random(0.1, 2);
+      this.moveSpeed = 0;
+    }
+
+    move() {
+      this.time += (0.01 + this.moveSpeed) * deltaTime;
+
+      if (this.time / this.speed <= 0.5) {
+        this.moveSpeed = lerp(0, this.maxSpeed, this.time / this.speed);
+      } else {
+        this.moveSpeed = lerp(this.maxSpeed, 0, this.time / this.speed);
+      }
+
+      this.x = lerp(this.ox, this.v.x, this.time / this.speed);
+      this.y = lerp(this.oy, this.v.y, this.time / this.speed);
+    }
+
+    drawSelf() {
+      stroke(this.color);
+      for (let w = 50; w > 0; w -= 10) {
+        let size = sizeOffset * sizeChangeRange * sin(time + this.timeOffset) * w;
+        size += sizeOffset * w;
+        strokeWeight(size);
+        point(this.x, this.y);
+      }
     }
   }
 </script>
