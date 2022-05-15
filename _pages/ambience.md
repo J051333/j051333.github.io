@@ -9,10 +9,12 @@ particles: true
 
 Pages designed to be nothing but nice smooth animations and simulations (kinda like the background of this page!)
 
-<a href="/_pages/ambientLineParticles/" class="btn btn--primary">Dots and Lines</a>
-
 Press slash on any ambient page for controls!
 {: .notice}
+
+<a href="/_pages/ambientLineParticles/" class="btn btn--primary">Dots and Lines</a>
+
+<a href="/_pages/colorQuilt/" class="btn btn--primary">Color Quilt</a>
 
 <!--
 <script type="module">
