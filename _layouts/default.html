@@ -11,6 +11,9 @@
 <html lang="{{ site.locale | slice: 0,2 | default: " en" }}" class="no-js">
 
 <head>
+  {% if page.fav != false %}
+    {% include favicon.html %}
+  {% endif %}
   {% include head.html %}
   {% include head/custom.html %}
   {% include analytics.html %}
