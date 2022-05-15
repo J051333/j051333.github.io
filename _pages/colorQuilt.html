@@ -97,6 +97,18 @@ layout: none
     } else if (keyCode == 65) {
       hueRange -= 1;
       mouseClicked();
+    } else if (keyCode == 87) {
+      sectionSize += 10;
+      resetSketch();
+    } else if (keyCode == 83) {
+      let proceed = true;
+      if (sectionSize < 40) {
+        proceed = window.confirm("Hey! Too many sections on the screen might freeze or crash the screen! Careful!");
+      }
+      if (proceed) {
+        sectionSize -= 10;
+        resetSketch();
+      }
     } else if (keyCode == 80) {
       sectionSize = prompt("What size sections do you want? Default is 100 :)");
       resetSketch();
@@ -104,10 +116,15 @@ layout: none
       anim = !anim;
     } else if (keyCode == 191) {
       window.alert(`Controls:
-        Space: change background
-        Arrow Keys: line size
-        Mouse Wheel: circle size
-        Double Click: fullscreen`);
+        Space: play/pause
+        Up/Down: shadow size
+        Left/Right: change speed
+        Mouse Wheel: change color
+        Click: reassign color ranges
+        Double Click: fullscreen
+        A/D: change range of colors
+        W/D: change section size
+        P: specify section size`);
     } else {
       console.log(keyCode);
     }
