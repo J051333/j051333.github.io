@@ -1,0 +1,156 @@
+---
+title: "Color Quilt"
+layout: none
+---
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
+
+<script>
+  var canvas;
+  var anim = true;
+  var time = 0;
+  var baseColor;
+  var timeStep = 0.03;
+  var hueRange = 30;
+  var sectionSize = 100;
+  const sections = [];
+
+  function setup() {
+    canvas = createCanvas(windowWidth, windowHeight);
+    canvas.position(0, 0);
+
+    //pixelDensity(1);
+
+    colorMode(HSB);
+
+    drawingContext.shadowBlur = 30;
+    drawingContext.shadowColor = color(0);
+
+    baseColor = new p5.Vector(200, 75, 56);
+
+    resetSketch();
+  }
+
+  function draw() {
+    if (anim) {
+      background(0);
+
+
+      doTime();
+
+      for (let i = 0; i < sections.length; i++) {
+        for (let j = 0; j < sections[i].length; j++) {
+          sections[i][j].drawSelf();
+        }
+      }
+    }
+  }
+
+  function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    resetSketch();
+  }
+
+  function mouseWheel(event) {
+    baseColor.x -= event.delta / 100;
+    if (baseColor.x > 360) {
+      baseColor.x = 0;
+    } else if (baseColor.x < 0) {
+      baseColor.x = 360;
+    }
+    return false;
+  }
+
+  function doubleClicked() {
+    if (
+      mouseX > 0 &&
+      mouseX < windowWidth &&
+      mouseY > 0 &&
+      mouseY < windowHeight
+    ) {
+      let fs = fullscreen();
+      fullscreen(!fs);
+    }
+  }
+
+  function mouseClicked() {
+    for (let i = 0; i < sections.length; i++) {
+      for (let j = 0; j < sections[i].length; j++) {
+        sections[i][j].resetMe();
+      }
+    }
+  }
+
+  function keyPressed() {
+    if (keyCode == UP_ARROW) {
+      drawingContext.shadowBlur += 10;
+    } else if (keyCode == DOWN_ARROW) {
+      drawingContext.shadowBlur -= 10;
+    } else if (keyCode == RIGHT_ARROW) {
+      timeStep += 0.01;
+    } else if (keyCode == LEFT_ARROW) {
+      timeStep -= 0.01;
+    } else if (keyCode == 68) {
+      hueRange += 1;
+      mouseClicked();
+    } else if (keyCode == 65) {
+      hueRange -= 1;
+      mouseClicked();
+    } else if (keyCode == 80) {
+      sectionSize = prompt("What size sections do you want? Default is 100 :)");
+      resetSketch();
+    } else if (keyCode == 32) {
+      anim = !anim;
+    } else if (keyCode == 191) {
+      window.alert(`Controls:
+        Space: change background
+        Arrow Keys: line size
+        Mouse Wheel: circle size
+        Double Click: fullscreen`);
+    } else {
+      console.log(keyCode);
+    }
+  }
+
+  function resetSketch() {
+    sections.splice(0, sections.length);
+    for (let i = 0; i < height / sectionSize; i++) {
+      sections.push([]);
+    }
+
+    for (let i = 0; i < sections.length; i++) {
+      for (let j = 0; j < width / sectionSize; j++) {
+        sections[i].push(new Section(j * sectionSize, i * sectionSize));
+      }
+    }
+  }
+
+  function doTime() {
+    time += timeStep;
+    if (time >= TAU) {
+      time = 0;
+    }
+  }
+
+  class Section {
+    constructor(_x, _y) {
+      this.x = _x;
+      this.y = _y;
+      this.resetMe();
+    }
+
+    resetMe() {
+      this.cOffsetHue = random(hueRange);
+      this.cOffsetSat = random(10);
+      this.cOffsetBri = random(10);
+      this.timeOffset = random(5);
+    }
+
+    drawSelf() {
+      let sinVal = sin(time + this.timeOffset);
+      fill(sinVal * this.cOffsetHue + baseColor.x, sinVal * this.cOffsetSat + baseColor.y, sinVal * this.cOffsetBri + baseColor.z);
+      noStroke();
+      rect(this.x, this.y, sectionSize);
+    }
+  }
+</script>
