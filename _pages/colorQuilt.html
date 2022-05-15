@@ -166,7 +166,12 @@ layout: none
 
     drawSelf() {
       let sinVal = sin(time + this.timeOffset);
-      fill(sinVal * this.cOffsetHue + baseColor.x, sinVal * this.cOffsetSat + baseColor.y, sinVal * this.cOffsetBri + baseColor.z);
+      let fillHue = sinVal * this.cOffsetHue + baseColor.x;
+
+      if (fillHue > 360) fillHue -= 360;
+      else if (fillHue < 0) fillHue += 360;
+
+      fill(fillHue, sinVal * this.cOffsetSat + baseColor.y, sinVal * this.cOffsetBri + baseColor.z);
       noStroke();
       rect(this.x, this.y, sectionSize);
     }
