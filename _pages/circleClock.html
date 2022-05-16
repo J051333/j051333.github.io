@@ -1,0 +1,97 @@
+---
+layout: none
+---
+
+<head>
+  <title>Circle and Clock</title>
+  {% include favicon.html %}
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
+
+<script>
+  var canvas;
+  const margin = 16;
+  var originX;
+  var originY;
+  const blurFactor = 10;
+  var timezoneOffsetMillis;
+  var diameter;
+
+  function setup() {
+    canvas = createCanvas(windowWidth, windowHeight);
+    canvas.position(0, 0);
+    pixelDensity(1);
+    timezoneOffsetMillis = new Date().getTimezoneOffset() * 60 * 1000;
+    resetSketch();
+  }
+
+  function draw() {
+    background(0);
+
+    arcs();
+
+    hands();
+  }
+
+  function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    resetSketch();
+  }
+
+  function arcs() {
+    strokeWeight(diameter / 70);
+
+    setColor(50, 255, 255, blurFactor, false);
+    arcPart(8, 255); //Date.now() / 1000);
+
+    setColor(25, 255, 150, blurFactor, false);
+    arcPart(9.5, Date.now() / 60000);
+
+    setColor(255, 50, 255, blurFactor, false);
+    arcPart(11, Date.now() / 3600000);
+  }
+
+  function hands() {
+
+    setColor(255, 0, 100, blurFactor, false);
+    handPoint(6.5, (Date.now() - timezoneOffsetMillis) / 60000);
+
+    strokeWeight(diameter / 60);
+    setColor(0, 255, 255, blurFactor, false);
+    hand(2, (Date.now() - timezoneOffsetMillis) / (3600000 * 12));
+
+    strokeWeight(diameter / 70);
+    setColor(245, 66, 170, blurFactor, false);
+    hand(5, (Date.now() - timezoneOffsetMillis) / 3600000);
+  }
+
+  function setColor(r, g, b, blur, doFill) {
+    stroke(r, g, b);
+    drawingContext.shadowColor = color(r, g, b);
+    drawingContext.shadowBlur = blur;
+    if (doFill) {
+      fill(r, g, b);
+    } else {
+      noFill();
+    }
+  }
+
+  function hand(len, fraction) {
+    line(originX, originY, originX + diameter / margin * len / 2 * cos(fraction * TAU - TAU / 4), originY + diameter / margin * len / 2 * sin(fraction * TAU - TAU / 4));
+  }
+
+  function handPoint(len, fraction) {
+    point(originX + diameter / margin * len / 2 * cos(fraction * TAU - TAU / 4), originY + diameter / margin * len / 2 * sin(fraction * TAU - TAU / 4))
+  }
+
+  function arcPart(count, fraction) {
+    arc(originX, originY, diameter / margin * count, diameter / margin * count, 0, fraction * TAU);
+  }
+
+  function resetSketch() {
+    originX = width / 2;
+    originY = height / 2;
+    diameter = width < height ? width : height;
+  }
+</script>

@@ -16,6 +16,8 @@ Press slash on any ambient page for controls!
 
 <a href="/_pages/colorQuilt/" class="btn btn--primary">Color Quilt</a>
 
+<a href="/_pages/circleClock/" class="btn btn--primary">Circle Clock</a>
+
 <!--
 <script type="module">
     import { showLogo } from "/assets/js/threejs/logo3d.js";
