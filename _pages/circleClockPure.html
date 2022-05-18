@@ -32,7 +32,9 @@ layout: none
     resize();
   });
 
-  setInterval(draw, 30); // basically 30 fps
+  resize();
+
+  setInterval(draw, 35); // basically 30 fps
 
   function draw() {
     ctx.moveTo(0, 0);
