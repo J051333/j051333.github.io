@@ -1,0 +1,104 @@
+---
+layout: none
+---
+
+<head>
+  <title>Circle and Clock</title>
+  {% include favicon.html %}
+</head>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+  var canvas = document.getElementById("canv");
+  var ctx = canvas.getContext("2d");
+  var timezoneOffsetMillis;
+  const margin = 16;
+  const blurLevel = 10;
+  var diameter;
+
+  console.log(new Date().getTimezoneOffset());
+  timezoneOffsetMillis = new Date().getTimezoneOffset() * 60 * 1000;
+
+  window.addEventListener("resize", () => {
+    resize();
+  });
+
+  setInterval(draw, 30); // basically 30 fps
+
+  function draw() {
+    ctx.moveTo(0, 0);
+
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, innerWidth, innerHeight);
+
+    arcPart(8, 0.99999, "#32FFFF");
+    arcPart(9.5, Date.now() / 60000, "#00FF8F");
+    arcPart(11, Date.now() / 3600000, "#FA00FF");
+
+    handPointPart(7, (Date.now() - 60000 / 4) / 60000, "#FF006F");
+    handPart(2, (Date.now() - 43200000 / 4 - timezoneOffsetMillis) / 43200000, "#00FFFF", 60);
+    handPart(5, (Date.now() - 3600000 / 4) / 3600000, "#F542AA");
+  }
+
+  function arcPart(len, fraction, color) {
+    fraction = fraction % 1;
+
+    ctx.beginPath();
+    ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, diameter / margin * len / 2, 0, fraction * Math.PI * 2);
+
+    ctx.lineCap = "round";
+    ctx.lineWidth = diameter / 70;
+    ctx.strokeStyle = color;
+
+    ctx.shadowBlur = blurLevel;
+    ctx.shadowColor = color;
+    ctx.stroke();
+  }
+
+  function handPart(len, fraction, color, width = 70) {
+    ctx.beginPath(); // Start a new path
+    ctx.strokeStyle = color;
+    ctx.lineCap = "round";
+    ctx.lineWidth = diameter / width;
+    ctx.shadowBlur = blurLevel;
+    ctx.shadowColor = color;
+    ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
+
+    // screen portions * length all over 2 to make it a radius not diameter
+    let r = diameter / margin * len / 2;
+
+    ctx.lineTo(r * Math.cos(fraction * Math.PI * 2) + ctx.canvas.width / 2, r * Math.sin(fraction * Math.PI * 2) + ctx.canvas.height / 2); // Draw a line to (150, 100)
+    ctx.stroke(); // Render the path
+  }
+
+  function handPointPart(len, fraction, color) {
+    fraction = fraction % 1;
+
+    ctx.beginPath();
+    ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, diameter / margin * len / 2, fraction * Math.PI * 2, fraction * Math.PI * 2);
+
+    ctx.lineCap = "round";
+    ctx.lineWidth = diameter / 70;
+    ctx.strokeStyle = color;
+
+    ctx.shadowBlur = blurLevel;
+    ctx.shadowColor = color;
+    ctx.stroke();
+  }
+
+  function resize() {
+    ctx.canvas.height = window.innerHeight;
+    ctx.canvas.width = window.innerWidth;
+    diameter = Math.min(window.innerWidth, window.innerHeight);
+    draw();
+  }
+</script>
