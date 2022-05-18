@@ -12,6 +12,8 @@ layout: none
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
   }
 </style>
 
@@ -22,7 +24,7 @@ layout: none
   var ctx = canvas.getContext("2d");
   var timezoneOffsetMillis;
   const margin = 16;
-  var blurLevel = 10;
+  var blurLevel = 0;
   var diameter;
 
   console.log(new Date().getTimezoneOffset());
@@ -40,7 +42,7 @@ layout: none
     ctx.moveTo(0, 0);
 
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, innerWidth, innerHeight);
+    ctx.fillRect(0, 0, innerWidth * window.devicePixelRatio, innerHeight * devicePixelRatio);
 
     arcPart(8, 0.99999, "#32FFFF");
     arcPart(9.5, Date.now() / 60000, "#00FF8F");
@@ -98,10 +100,14 @@ layout: none
   }
 
   function resize() {
-    ctx.canvas.height = window.innerHeight;
-    ctx.canvas.width = window.innerWidth;
-    diameter = Math.min(window.innerWidth, window.innerHeight);
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    }
+
+    diameter = Math.min(window.innerWidth, window.innerHeight) * window.devicePixelRatio;
     blurLevel = diameter / 45;
+
     draw();
   }
 </script>
