@@ -22,7 +22,7 @@ layout: none
   var ctx = canvas.getContext("2d");
   var timezoneOffsetMillis;
   const margin = 16;
-  const blurLevel = 10;
+  var blurLevel = 10;
   var diameter;
 
   console.log(new Date().getTimezoneOffset());
@@ -44,7 +44,7 @@ layout: none
     arcPart(9.5, Date.now() / 60000, "#00FF8F");
     arcPart(11, Date.now() / 3600000, "#FA00FF");
 
-    handPointPart(7, (Date.now() - 60000 / 4) / 60000, "#FF006F");
+    handPointPart(6.5, (Date.now() - 60000 / 4) / 60000, "#FF006F");
     handPart(2, (Date.now() - 43200000 / 4 - timezoneOffsetMillis) / 43200000, "#00FFFF", 60);
     handPart(5, (Date.now() - 3600000 / 4) / 3600000, "#F542AA");
   }
@@ -99,6 +99,7 @@ layout: none
     ctx.canvas.height = window.innerHeight;
     ctx.canvas.width = window.innerWidth;
     diameter = Math.min(window.innerWidth, window.innerHeight);
+    blurLevel = diameter / 45;
     draw();
   }
 </script>
