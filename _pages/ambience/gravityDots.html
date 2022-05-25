@@ -1,0 +1,153 @@
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+  }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+  let canvas = document.getElementById("canv");
+  let ctx = canvas.getContext("2d");
+  let dots = [];
+  let mouseX = -100;
+  let mouseY = -100;
+  let friction = 0.01;
+  let maxForce = 0.05;
+  let perc = 100;
+  let accs;
+  let r;
+
+  resize();
+
+  window.addEventListener("resize", () => {
+    clearTimeout(r);
+    r = setTimeout(() => {
+      resize();
+      reset();
+    }, 200)
+  });
+
+  class Dot {
+    constructor(_x, _y) {
+      this.ox = _x;
+      this.oy = _y;
+      this.x = this.ox;
+      this.y = this.oy;
+      this.vx = 0;
+      this.vy = 0;
+      this.ax = 0;
+      this.ay = 0;
+      this.desX;
+      this.desY;
+      this.mode = 'w';
+      this.lMode = this.mode;
+      this.time = 0;
+    }
+
+    show() {
+      if (Math.abs(this.ox - mouseX) < perc && Math.abs(this.oy - mouseY) < perc) {
+        this.desX = mouseX;
+        this.desY = mouseY;
+        this.lMode = this.mode;
+        this.mode = 'w';
+      } else {
+        this.desX = this.ox;
+        this.desY = this.oy;
+        this.lMode = this.mode;
+        this.mode = 'm';
+      }
+
+      if (this.mode != this.lMode) {
+        this.time = 0.05;
+      }
+
+      this.x = lerp(this.x, this.desX, this.time);
+      this.y = lerp(this.y, this.desY, this.time);
+
+      let color = "HSL(";
+      let distAvg = (Math.abs(this.x - mouseX) + Math.abs(this.y - mouseY)) / 2;
+
+      color += map(Math.min(distAvg, perc), 0, perc, 200, 320);
+      color += ", ";
+      color += 100 + "%";
+      color += ", ";
+      color += 50 + "%"; //Math.abs(this.y - mouseY);
+      color += ")";
+      //console.log(color);
+
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 10;
+      ctx.lineCap = "round";
+      ctx.shadowBlur = 30;
+      ctx.shadowColor = color;
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(this.x, this.y);
+      ctx.stroke();
+
+      if (this.time < 1) {
+        this.time += 0.01;
+      }
+    }
+  }
+
+
+  init();
+
+  setInterval(draw, 35);
+
+  function init() {
+    onmousemove = (e) => {
+      mouseX = e.clientX * window.devicePixelRatio;
+      mouseY = e.clientY * window.devicePixelRatio;
+    };
+    reset();
+  }
+
+  function draw() {
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].show();
+    }
+  }
+
+  function resize() {
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    }
+  }
+
+  async function reset() {
+    dots.length = 0;
+
+    let rowCt = 10;
+    let colCt = 10;
+    perc = ((canvas.width + canvas.height) / 2) / ((rowCt + colCt) * 0.4);
+    for (let i = 1; i < rowCt; i++) {
+      for (let j = 1; j < colCt; j++) {
+        dots.push(new Dot(i * canvas.width / rowCt, j * canvas.height / colCt));
+      }
+    }
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  function map(value, a, b, c, d) {
+    value = (value - a) / (b - a);
+    return c + value * (d - c);
+  }
+
+  function lerp(x, y, t) {
+    return (1 - t) * x + t * y;
+  }
+</script>

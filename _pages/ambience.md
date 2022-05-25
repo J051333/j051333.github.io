@@ -18,9 +18,8 @@ Press slash on any ambient page for controls!
 
 <a href="/_pages/ambience/circleClockPure/" class="btn btn--primary">Circle Clock</a>
 
-<!--
-<script type="module">
-    import { showLogo } from "/assets/js/threejs/logo3d.js";
-    showLogo();
-</script>
--->
+<a href="/_pages/ambience/gravityDots/" class="btn btn--primary">Gravity Dots</a>
+
+<!--IDEAS
+ - gravity dots mouse
+ - mouse blob path-->
