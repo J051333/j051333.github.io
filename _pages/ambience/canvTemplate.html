@@ -1,0 +1,56 @@
+---
+layout: none
+---
+
+<head>
+  <title>titlek</title>
+  {% include favicon.html %}
+</head>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+  var canvas = document.getElementById("canv");
+  var ctx = canvas.getContext("2d");
+
+  window.addEventListener("resize", () => {
+    clearTimeout(r);
+    r = setTimeout(() => {
+      resize();
+      reset();
+    }, 200)
+  });
+
+  resize();
+
+  setInterval(draw, 35); // basically 30 fps
+
+  function draw() {
+    // draw
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, innerWidth * window.devicePixelRatio, innerHeight * devicePixelRatio);
+  }
+
+  function resize() {
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    }
+
+    draw();
+  }
+
+  function reset() {
+    // reset
+  }
+</script>
