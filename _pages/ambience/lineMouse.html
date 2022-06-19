@@ -1,0 +1,102 @@
+---
+layout: none
+---
+
+<head>
+    <title>Lines</title>
+    {% include favicon.html %}
+</head>
+
+<style>
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+    var canvas = document.getElementById("canv");
+    var ctx = canvas.getContext("2d");
+    const path = [];
+    const dotCount = 100;
+    const radiusBase = 10;
+    const sinInfluence = 5;
+    var pathColor = `RGB(255, 255, 255)`;
+    var mouseX = 0;
+    var mouseY = 0;
+    var r;
+
+    window.addEventListener("resize", () => {
+        clearTimeout(r);
+        r = setTimeout(() => {
+            resize();
+            reset();
+        }, 200)
+    });
+
+    window.addEventListener('mousemove', (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    });
+
+    canvas.onclick = () => {
+        pathColor = `RGB(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+    }
+
+    class Dot {
+        constructor(_x, _y) {
+            this.x = _x;
+            this.y = _y;
+            this.life = 0;
+            this.width = 10;
+        }
+
+        show(next) {
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(next.x, next.y);
+
+            ctx.strokeStyle = pathColor;
+            ctx.lineCap = "round";
+            ctx.lineWidth = this.width;
+            ctx.stroke();
+        }
+    }
+
+    resize();
+    reset();
+
+    setInterval(draw, 5); // basically 30 fps
+
+    function draw() {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, innerWidth * window.devicePixelRatio, innerHeight * devicePixelRatio);
+
+        for (let i = 0; i < dotCount - 1; i++) {
+            path[i].show(path[i + 1]);
+        }
+
+        path.unshift(path.pop());
+        path[0].x = mouseX;
+        path[0].y = mouseY;
+        path[0].width = 20 + Math.sin(Date.now() / 250) * sinInfluence;
+    }
+
+    function resize() {
+        if (window.devicePixelRatio >= 1) {
+            canvas.height = window.innerHeight * window.devicePixelRatio;
+            canvas.width = window.innerWidth * window.devicePixelRatio;
+        }
+    }
+
+    function reset() {
+        for (let i = 0; i < dotCount; i++) {
+            path.push(new Dot(0, 0));
+        }
+    }
+</script>
