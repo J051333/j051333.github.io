@@ -1,0 +1,134 @@
+---
+layout: none
+---
+
+<head>
+  <title>Color Circles</title>
+  {% include favicon.html %}
+</head>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+  let r = 100;
+  let canvas = document.getElementById("canv");
+  let ctx = canvas.getContext("2d");
+  const circles = [];
+  let blurLevel = 30;
+  let baseColor = 220;
+  let time = 0;
+  let timeStep = 0.03;
+  let hueRange = 30;
+  let anim = true;
+  let res;
+
+
+  window.addEventListener("resize", () => {
+    clearTimeout(res);
+    ctx.fillStyle = "#500050";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    res = setTimeout(() => {
+      resize();
+      reset();
+    }, 200);
+  });
+
+  class Circle {
+    constructor(_x, _y) {
+      this.x = _x;
+      this.y = _y;
+      this.resetMe();
+    }
+
+    resetMe() {
+      this.cOffsetHue = Math.random() * hueRange;
+      this.cOffsetSat = Math.random() * 10;
+      this.cOffsetBri = Math.random() * 10;
+      this.timeOffset = Math.random() * 5;
+    }
+
+    drawSelf() {
+      let sinVal = Math.sin(time + this.timeOffset);
+      let fillHue = sinVal * this.cOffsetHue + baseColor;
+
+      if (fillHue > 360) fillHue -= 360;
+      else if (fillHue < 0) fillHue += 360;
+
+      // fill(color, sinVal * this.cOffsetSat + baseColor.y, sinVal * this.cOffsetBri + baseColor.z);
+      // noStroke();
+      // rect(this.x, this.y, sectionSize);
+
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+
+      ctx.lineCap = "round";
+      ctx.lineWidth = r / 70;
+      ctx.fillStyle = `HSL(${fillHue}, 50%, 50%)`;
+
+      ctx.shadowBlur = blurLevel;
+      ctx.shadowColor = "#000000";
+      ctx.fill();
+    }
+  }
+
+  setup();
+
+  setInterval(draw, 20);
+
+  function setup() {
+    resize();
+    reset();
+  }
+
+  function draw() {
+    if (anim) {
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      doTime();
+
+      for (let i = 0; i < circles.length; i++) {
+        for (let j = 0; j < circles[i].length; j++) {
+          circles[i][j].drawSelf();
+        }
+      }
+    }
+  }
+
+  function resize() {
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    }
+  }
+
+  async function reset() {
+    circles.length = 0;
+    for (let i = 0; i < ctx.canvas.height / r + 1; i++) {
+      circles.push([]);
+    }
+
+    for (let i = 0; i < circles.length; i++) {
+      for (let j = 0; j < ctx.canvas.width / r + 1; j++) {
+        circles[i].push(new Circle(j * r, i * r));
+      }
+    }
+  }
+
+  function doTime() {
+    time += timeStep;
+    if (time >= Math.PI * 2) {
+      time = 0;
+    }
+  }
+</script>
