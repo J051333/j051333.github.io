@@ -26,7 +26,6 @@ layout: none
   let mouseX = -100;
   let mouseY = -100;
   let friction = 0.01;
-  let maxForce = 0.05;
   let perc = 100;
   let accs;
   let r;
@@ -53,6 +52,8 @@ layout: none
       this.ay = 0;
       this.desX;
       this.desY;
+      this.lastX = _y;
+      this.lastY = _x;
       this.mode = 'w';
       this.lMode = this.mode;
       this.time = 0;
@@ -75,8 +76,16 @@ layout: none
         this.time = 0.05;
       }
 
-      this.x = lerp(this.x, this.desX, this.time);
-      this.y = lerp(this.y, this.desY, this.time);
+      let xLerp = lerp(this.x, this.desX, this.time);
+      let yLerp = lerp(this.y, this.desY, this.time);
+
+      //let dist = Math.sqrt(Math.pow(this.x - this.lastX, 2) + Math.pow(this.y - this.lastY, 2));
+
+      this.x = xLerp;
+      this.y = yLerp;
+
+
+      //console.log(dist);
 
       let color = "HSL(";
       let distAvg = (Math.abs(this.x - mouseX) + Math.abs(this.y - mouseY)) / 2;
@@ -102,19 +111,22 @@ layout: none
       if (this.time < 1) {
         this.time += 0.01;
       }
+
+      this.lastX = this.x;
+      this.lastY = this.y;
     }
   }
 
-
   init();
 
-  setInterval(draw, 35);
+  setInterval(draw, 30);
 
   function init() {
     onmousemove = (e) => {
       mouseX = e.clientX * window.devicePixelRatio;
       mouseY = e.clientY * window.devicePixelRatio;
     };
+
     reset();
   }
 
