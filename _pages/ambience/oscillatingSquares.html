@@ -1,0 +1,97 @@
+---
+layout: none
+---
+
+<head>
+  <title>Oscillating Squares even though They're not Squares</title>
+  {% include favicon.html %}
+</head>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+  var canvas = document.getElementById("canv");
+  var ctx = canvas.getContext("2d");
+  var count = 10;
+  const squares = [];
+  var r;
+
+  class Square {
+    constructor(width, height, index) {
+      this.oX = index * width;
+      this.oY = index * height;
+      this.x = this.oX;
+      this.y = this.oY;
+      this.width = width;
+      this.height = height;
+    }
+
+    show() {
+      ctx.fillStyle = "#7F7F7F";
+      ctx.strokeStyle = "#000FFF";
+      ctx.fillRect(this.x, this.y, this.x + this.width, this.y + this.height);
+      ctx.strokeRect(this.x, this.y, this.x + this.width, this.y + this.height);
+    }
+  }
+
+  window.addEventListener("resize", () => {
+    clearTimeout(r);
+    r = setTimeout(() => {
+      resize();
+      reset();
+    }, 200);
+  });
+
+  reset();
+  resize();
+
+  setInterval(draw, 35); // basically 30 fps
+
+  function draw() {
+    // draw
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(
+      0,
+      0,
+      innerWidth * window.devicePixelRatio,
+      innerHeight * devicePixelRatio
+    );
+
+    for (let i = 0; i < count; i++) {
+      squares[i].show();
+    }
+
+    // ctx.fillStyle = "#FFFFFF";
+    // ctx.fillRect(0, 0, innerWidth, canvas.height);
+  }
+
+  function resize() {
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    }
+
+    draw();
+  }
+
+  function reset() {
+    let width = canvas.width / count;
+    let height = canvas.height / count;
+
+    squares.length = 0;
+
+    for (let i = 0; i < count; i++) {
+      squares.push(new Square(width, height, i));
+    }
+  }
+</script>
