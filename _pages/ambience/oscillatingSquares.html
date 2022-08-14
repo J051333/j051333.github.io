@@ -24,23 +24,27 @@ layout: none
   var ctx = canvas.getContext("2d");
   var count = 10;
   const squares = [];
+  var lastTime = Date.now();
+  var t = 0;
+  var transLen = 5000; // in ms
   var r;
 
   class Square {
-    constructor(width, height, index) {
-      this.oX = index * width;
-      this.oY = index * height;
+    constructor(width, height, i, j) {
+      this.oX = i * width;
+      this.oY = j * height;
       this.x = this.oX;
       this.y = this.oY;
       this.width = width;
       this.height = height;
     }
-
+    
     show() {
-      ctx.fillStyle = "#7F7F7F";
-      ctx.strokeStyle = "#000FFF";
-      ctx.fillRect(this.x, this.y, this.x + this.width, this.y + this.height);
-      ctx.strokeRect(this.x, this.y, this.x + this.width, this.y + this.height);
+      ctx.lineWidth = 2;
+      ctx.fillStyle = "#7F7F7F2F";
+      ctx.strokeStyle = "#00FFCF2F";
+      ctx.fillRect(lerp(this.x / 2, this.x, t / transLen), this.y, this.width, this.height); // rethink
+      ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
   }
 
@@ -52,12 +56,13 @@ layout: none
     }, 200);
   });
 
+  resize(false);
   reset();
-  resize();
 
   setInterval(draw, 35); // basically 30 fps
 
   function draw() {
+    t += Date.now() - lastTime;
     // draw
     ctx.fillStyle = "#000000";
     ctx.fillRect(
@@ -67,31 +72,40 @@ layout: none
       innerHeight * devicePixelRatio
     );
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < squares.length; i++) {
       squares[i].show();
     }
 
-    // ctx.fillStyle = "#FFFFFF";
-    // ctx.fillRect(0, 0, innerWidth, canvas.height);
+    if (t >= transLen) {
+      t = 0;
+    }
+
+    lastTime = Date.now();
   }
 
-  function resize() {
+  function resize(d = true) {
     if (window.devicePixelRatio >= 1) {
       canvas.height = window.innerHeight * window.devicePixelRatio;
       canvas.width = window.innerWidth * window.devicePixelRatio;
     }
 
-    draw();
+    if (d) draw();
   }
 
   function reset() {
-    let width = canvas.width / count;
-    let height = canvas.height / count;
+    let width = (window.innerWidth * window.devicePixelRatio) / count;
+    let height = (window.innerHeight * window.devicePixelRatio) / count;
 
     squares.length = 0;
 
     for (let i = 0; i < count; i++) {
-      squares.push(new Square(width, height, i));
+      for (let j = 0; j < count; j++) {
+        squares.push(new Square(width, height, i, j));
+      }
     }
+  }
+
+  function lerp(a, b, f) {
+    return (1 - f) * a + f * b;
   }
 </script>
