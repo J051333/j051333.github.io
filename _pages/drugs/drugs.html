@@ -6,17 +6,33 @@ layout: none
   {% include favicon.html %}
 </head>
 
-<style></style>
+<style>
+  .buyButton {
+    margin-bottom: 0.25em;
+    margin-top: 0.5em;
+  }
+
+  .buyLabel {
+    margin-top: 1em;
+    margin-bottom: 0em;
+  }
+</style>
 
 <h1>Chemistry Research</h1>
 <h2 id="drugs_counter">Drugs: 0</h2>
 <h4 id="money_counter">Money: 0</h4>
 <h4 id="chems_counter">Chemicals: 0</h4>
-<button id="manual_cook">Cook a Drug</button>
+<button id="manual_cook" class="buyButton">Cook a Drug</button>
+<button id="manual_sell" class="buyButton">Sell Drugs</button>
+</br>
+<button id="buy_chems" class="buyButton">Buy some Chemicals</button>
 
 </br>
 
-<h4 id="cooks_counter">Cooks: 0</h4>
-<button id="buy_cooks">Buy a Cook</button>
+<h4 id="cooks_counter" class="buyLabel">Cooks: 0</h4>
+<button id="buy_cooks" class="buyButton">Buy a Cook</button>
+
+<h4 id="runners_counter" class="buyLabel">Cooks: 0</h4>
+<button id="buy_runners" class="buyButton">Buy a Runner</button>
 
 <script src="./drugs.js"></script>
