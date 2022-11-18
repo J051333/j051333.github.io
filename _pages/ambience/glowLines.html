@@ -1,0 +1,143 @@
+---
+layout: none
+---
+
+<head>
+  <title>Glow Lines</title>
+  {% include favicon.html %}
+</head>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0%;
+  }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+  var canvas = document.getElementById("canv");
+  var ctx = canvas.getContext("2d");
+  var r;
+
+  window.addEventListener("resize", () => {
+    clearTimeout(r);
+    r = setTimeout(() => {
+      resize();
+      reset();
+    }, 200)
+  });
+
+  resize();
+
+  setInterval(draw, 35); // basically 30 fps
+
+
+  const screenPartition = 0.25;
+  const widthLines = [];
+  const heightLines = [];
+  let step = 2;
+
+  class WidthLine {
+    constructor(_hue, _index) {
+      this.length = ctx.canvas.width * screenPartition;
+      this.x = -this.length * _index;
+      this.color = _hue;
+    }
+
+    drawSelf() {
+      ctx.strokeStyle = `HSLA(${this.color}, 100%, 50%, 75%)`;
+      ctx.lineWidth = 15;
+      ctx.shadowRadius = 7;
+      ctx.shadowBlur =30;
+      ctx.shadowColor = `HSLA(${this.color}, 100%, 50%, 100%)`;
+
+      ctx.beginPath();
+      ctx.moveTo(this.x, -20);
+      ctx.lineTo(this.x + this.length, ctx.canvas.height + 20);
+      ctx.stroke();
+      this.x += step;''
+      this.color++;
+
+      if (this.x > ctx.canvas.width + 200) this.x = -this.length - 200;
+      if (this.color >= 360) this.color = 0;
+    }
+  }
+
+  class HeightLine {
+    constructor(_hue, _index) {
+      this.length = ctx.canvas.height * screenPartition;
+      this.y = -this.length * _index;
+      this.color = _hue;
+    }
+
+    drawSelf() {
+      ctx.strokeStyle = `HSLA(${this.color}, 100%, 50%, 75%)`;
+      ctx.lineWidth = 15;
+      ctx.shadowRadius = 7;
+      ctx.shadowBlur =30;
+      ctx.shadowColor = `HSLA(${this.color}, 100%, 50%, 100%)`;
+
+      ctx.beginPath();
+      ctx.moveTo(-20, this.y);
+      ctx.lineTo(ctx.canvas.width + 20, this.y + this.length);
+      ctx.stroke();
+      this.y += step;
+      this.color++;
+
+      if (this.y > ctx.canvas.height + 200) this.y = -this.length - 200;
+      if (this.color >= 360) this.color = 0;
+    }
+  }
+
+  function getColor() {
+    return Math.ceil(Math.random() * 50);
+  }
+
+  function addWLine(color, index) {
+    widthLines.unshift(new WidthLine(color, index));
+  }
+
+  function addHLine(color, index) {
+    heightLines.unshift(new HeightLine(color, index));
+  }
+
+  function init() {
+    for (let i = 0; i < 6; i++) {
+      addWLine(getColor(), i);
+      addHLine(getColor(), i);
+    }
+    for (let i = 0; i < 4; i++) {
+    }
+  }
+  init();
+
+  function draw() {
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, innerWidth * window.devicePixelRatio, innerHeight * devicePixelRatio);
+    // draw
+    for (let i = 0; i < widthLines.length; i++) {
+      widthLines[i].drawSelf();
+    }
+
+    for (let i = 0; i < heightLines.length; i++) {
+      heightLines[i].drawSelf();
+    }
+  }
+
+  function resize() {
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    }
+  }
+
+  function reset() {
+    
+  }
+</script>
