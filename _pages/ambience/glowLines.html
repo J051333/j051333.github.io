@@ -41,7 +41,8 @@ layout: none
   const screenPartition = 0.25;
   const widthLines = [];
   const heightLines = [];
-  let step = 2;
+  let stepX = 2;
+  let stepY = 1;
 
   class WidthLine {
     constructor(_hue, _index) {
@@ -61,7 +62,7 @@ layout: none
       ctx.moveTo(this.x, -20);
       ctx.lineTo(this.x + this.length, ctx.canvas.height + 20);
       ctx.stroke();
-      this.x += step;''
+      this.x += stepX;
       this.color++;
 
       if (this.x > ctx.canvas.width + 200) this.x = -this.length - 200;
@@ -87,7 +88,7 @@ layout: none
       ctx.moveTo(-20, this.y);
       ctx.lineTo(ctx.canvas.width + 20, this.y + this.length);
       ctx.stroke();
-      this.y += step;
+      this.y += stepY;
       this.color++;
 
       if (this.y > ctx.canvas.height + 200) this.y = -this.length - 200;

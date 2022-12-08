@@ -22,6 +22,7 @@ Press slash on any ambient page for controls!
 
 <a href="/_pages/ambience/glowLines/" class="btn btn--primary">Glow Lines</a>
 
+<a href="/_pages/ambience/boxes/" class="btn btn--primary">Boxes</a>
 <!--IDEAS
  - gravity dots mouse
  - mouse blob path-->

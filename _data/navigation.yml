@@ -6,7 +6,5 @@ main:
     url: /_pages/ambience/
   - title: "About"
     url: /_pages/about/
-  # - title: "Sample Collections"
-  #   url: /collection-archive/
   # - title: "Sitemap"
   #   url: /sitemap/
