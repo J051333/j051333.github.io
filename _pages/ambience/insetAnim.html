@@ -1,0 +1,178 @@
+---
+layout: none
+---
+
+<head>
+    <title>Shadows</title>
+    {% include favicon.html %}
+</head>
+
+<style>
+body {
+    background-color: #000;
+}
+
+div {
+    box-shadow: inset 0 0 0 0rem rgba(255, 0, 0, 1);
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+div.mid {
+    width: 100%;
+    height: 100%;
+    border-color: #FF0000;
+    position: absolute;
+}
+
+@keyframes one {
+    from {
+        box-shadow: inset 0 0 0 0rem rgba(255, 0, 0, 1);
+    }
+
+    to {
+        box-shadow: inset 0 0 0 2rem rgba(255, 0, 0, 1);
+    }
+}
+
+@keyframes two {
+    from {
+        box-shadow: inset 0 0 0 0rem rgba(255, 125, 0, 1);
+    }
+
+    to {
+        box-shadow: inset 0 0 0 2rem rgba(255, 125, 0, 1);
+    }
+}
+
+@keyframes three {
+    from {
+        box-shadow: inset 0 0 0 0rem rgba(255, 255, 0, 1);
+    }
+
+    to {
+        box-shadow: inset 0 0 0 2rem rgba(255, 255, 0, 1);
+    }
+}
+
+@keyframes four {
+    from {
+        box-shadow: inset 0 0 0 0rem rgba(15, 255, 100, 1);
+    }
+
+    to {
+        box-shadow: inset 0 0 0 2rem rgba(15, 255, 100, 1);
+    }
+}
+
+@keyframes five {
+    from {
+        box-shadow: inset 0 0 0 0rem rgba(0, 200, 255, 1);
+    }
+
+    to {
+        box-shadow: inset 0 0 0 2rem rgba(0, 200, 255, 1);
+    }
+}
+
+@keyframes six {
+    from {
+        box-shadow: inset 0 0 0 0rem rgba(255, 0, 255, 1);
+    }
+
+    to {
+        box-shadow: inset 0 0 0 2rem rgba(255, 0, 255, 1);
+    }
+}
+
+@keyframes seven {
+    from {
+        box-shadow: inset 0 0 0 0rem rgba(255, 100, 100, 1);
+    }
+
+    to {
+        box-shadow: inset 0 0 0 100rem rgba(255, 100, 100, 1);
+    }
+}
+
+div#one {
+    animation: one 1s forwards linear;
+}
+
+div#two {
+    animation: two 1s forwards linear;
+    animation-delay: 1s;
+    width: calc(100% - 4rem);
+    height: calc(100% - 4rem);
+    top: 2rem;
+    left: 2rem;
+}
+
+div#three {
+    animation: three 1s forwards linear;
+    animation-delay: 2s;
+    width: calc(100% - 4rem);
+    height: calc(100% - 4rem);
+    top: 2rem;
+    left: 2rem;
+}
+
+div#four {
+    animation: four 1s forwards linear;
+    animation-delay: 3s;
+    width: calc(100% - 4rem);
+    height: calc(100% - 4rem);
+    top: 2rem;
+    left: 2rem;
+}
+
+div#five {
+    animation: five 1s forwards linear;
+    animation-delay: 4s;
+    width: calc(100% - 4rem);
+    height: calc(100% - 4rem);
+    top: 2rem;
+    left: 2rem;
+}
+
+div#six {
+    animation: six 1s forwards linear;
+    animation-delay: 5s;
+    width: calc(100% - 4rem);
+    height: calc(100% - 4rem);
+    top: 2rem;
+    left: 2rem;
+}
+
+div#seven {
+    animation: seven 80s forwards linear;
+    animation-delay: 6s;
+    width: calc(100% - 4rem);
+    height: calc(100% - 4rem);
+    top: 2rem;
+    left: 2rem;
+}
+
+</style>
+
+<div>
+    <div id="one" class="mid">    
+        <div id="two">
+            <div id="three">
+                <div id="four">
+                    <div id="five">
+                        <div id="six">
+                            <div id="seven">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

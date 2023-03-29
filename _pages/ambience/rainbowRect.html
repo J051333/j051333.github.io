@@ -1,0 +1,25 @@
+---
+layout: none
+---
+
+<script>
+    let colors = ["#DD0031", "#FF5500", "yellow", "#55FF77", "blue", "purple"];
+    let count = 10;
+
+    for (let i = 0; i < count; i++) {
+        let div = document.createElement("div");
+        div.style.width = `${100 - 100 / count * i}%`;
+        div.style.height = `${100 - 100 / count * i}%`;
+        div.style.position = "absolute";
+        div.style.top = (screen.height / 2 / count * i);
+        div.style.left = (screen.width / 2 / count * i);
+        div.style.background = colors[i % 6];
+        div.style.color = "white";
+        document.body.appendChild(div);
+    }
+
+
+    
+        
+
+</script>
