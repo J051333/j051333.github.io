@@ -1,0 +1,237 @@
+---
+layout: none
+---
+
+<head>
+    <title>Gay Panic Lol</title>
+    {% include favicon.html %}
+</head>
+
+<style>
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #panicButton {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        background-color: #00000000;
+    }
+
+    p {
+        font-size: 3em;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: white;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+        animation: rainbow 2.5s linear;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes rainbow {
+        100%,
+        0% {
+            color: rgb(255, 0, 0);
+        }
+        8% {
+            color: rgb(255, 127, 0);
+        }
+        16% {
+            color: rgb(255, 255, 0);
+        }
+        25% {
+            color: rgb(127, 255, 0);
+        }
+        33% {
+            color: rgb(0, 255, 0);
+        }
+        41% {
+            color: rgb(0, 255, 127);
+        }
+        50% {
+            color: rgb(0, 255, 255);
+        }
+        58% {
+            color: rgb(0, 127, 255);
+        }
+        66% {
+            color: rgb(0, 0, 255);
+        }
+        75% {
+            color: rgb(127, 0, 255);
+        }
+        83% {
+            color: rgb(255, 0, 255);
+        }
+        91% {
+            color: rgb(255, 0, 127);
+        }
+    }
+</style>
+
+<canvas id="canv"></canvas>
+<div id="panicButton">
+    <p id="panicText">PANIC</p>
+</div>
+
+<script>
+    var r;
+    var canvas = document.getElementById("canv");
+    var ctx = canvas.getContext("2d");
+    var button = document.getElementById("panicButton");
+
+    var palette = 0;
+    var queerness = 0;
+    var panic = false;
+    var slow = false;
+
+    const boxes = [];
+
+    const gayColors = [
+        "#E40303",
+        "#FF8C00",
+        "#FFED00",
+        "#008026",
+        "#24408E",
+        "#732982",
+    ];
+    const lesColors = [
+        "#D52D00",
+        "#EF7627",
+        "#FF9A56",
+        "#FFFFFF",
+        "#D162A4",
+        "#B55690",
+        "#A30262",
+    ];
+    const biColors = ["#D60270", "#9B4F96", "#0038A8"];
+
+    const colorPalettes = [gayColors, lesColors, biColors];
+
+    var offsetX, offsetY;
+
+    class Box {
+        constructor(_x, _y, _color) {
+            this.x = _x;
+            this.y = _y;
+            this.color = _color; // index of color
+            this.localXOffset = _color * offsetX;
+            this.localYOffset = _color * offsetY;
+        }
+
+        show() {
+            ctx.fillStyle = colorPalettes[palette][this.color];
+            ctx.fillRect(
+                this.localXOffset,
+                this.localYOffset,
+                innerWidth * window.devicePixelRatio - this.localXOffset * 2,
+                innerHeight * devicePixelRatio - this.localYOffset * 2
+            );
+
+            if (
+                this.localXOffset > canvas.width / 2 ||
+                this.localYOffset > canvas.height / 2
+            ) {
+                this.localXOffset = 0;
+                this.localYOffset = 0;
+                var me = boxes.pop();
+                boxes.unshift(me);
+            }
+        }
+    }
+
+    window.addEventListener("resize", () => {
+        clearTimeout(r);
+        r = setTimeout(() => {
+            resize();
+            reset();
+        }, 200);
+    });
+
+    canvas.addEventListener("click", () => {
+        palette++;
+        if (palette >= colorPalettes.length) palette = 0;
+        reset();
+    });
+
+    button.addEventListener("click", () => {
+        if (!panic) {
+            panic = true;
+        } else {
+            slow = true;
+        }
+    });
+
+    reset();
+    resize();
+    setInterval(draw, 15);
+
+    function draw() {
+        // draw
+        ctx.fillStyle =
+            colorPalettes[
+                palette[[boxes[colorPalettes[palette].length - 1].color]]
+            ];
+        ctx.fillRect(
+            0,
+            0,
+            innerWidth * window.devicePixelRatio,
+            innerHeight * devicePixelRatio
+        );
+        for (let i = 0; i < boxes.length; i++) {
+            boxes[i].show();
+            boxes[i].localXOffset += queerness;
+            boxes[i].localYOffset += queerness;
+        }
+
+        if (slow) {
+            if (queerness > 3.5) {
+                queerness -= 1;
+            } else {
+                slow = false;
+                panic = false;
+            }
+        } else if (panic) {
+            queerness += 0.01;
+        }
+
+        //index++;
+        //if (index >= colorPalettes[palette].length) {
+        //  index = 0;
+        //}
+    }
+
+    function resize() {
+        if (window.devicePixelRatio >= 1) {
+            canvas.height = window.innerHeight * window.devicePixelRatio;
+            canvas.width = window.innerWidth * window.devicePixelRatio;
+        }
+
+        draw();
+    }
+
+    function reset() {
+        offsetX =
+            (window.innerWidth * window.devicePixelRatio) /
+            colorPalettes[palette].length /
+            2;
+        offsetY =
+            (window.innerHeight * window.devicePixelRatio) /
+            colorPalettes[palette].length /
+            2;
+
+        boxes.length = 0;
+
+        for (let i = 0; i < colorPalettes[palette].length; i++) {
+            var box = new Box(0, 0, i);
+            boxes.push(box);
+        }
+    }
+</script>
