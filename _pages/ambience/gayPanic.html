@@ -33,6 +33,7 @@ layout: none
         -webkit-text-stroke-color: black;
         animation: rainbow 2.5s linear;
         animation-iteration-count: infinite;
+        font-weight: bold;
     }
 
     @keyframes rainbow {
@@ -180,6 +181,7 @@ layout: none
     });
 
     button.addEventListener("click", () => {
+        document.getElementById("panicText").textContent = "PANICKING";
         if (!panic) {
             panic = true;
         } else {
@@ -189,7 +191,6 @@ layout: none
 
     reset();
     resize();
-    setInterval(draw, 15);
 
     function draw() {
         // draw
@@ -210,8 +211,10 @@ layout: none
         }
 
         if (slow) {
-            if (queerness > queerLimit) {
-                queerness -= 1;
+            if (queerness - queerLimit > 2) {
+                queerness--;
+            } else if (queerness - queerLimit < -2) {
+                queerness += 0.01;
             } else {
                 slow = false;
                 panic = false;
@@ -224,6 +227,7 @@ layout: none
         //if (index >= colorPalettes[palette].length) {
         //  index = 0;
         //}
+        window.requestAnimationFrame(draw);
     }
 
     function resize() {
