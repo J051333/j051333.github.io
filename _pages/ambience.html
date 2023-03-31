@@ -1,0 +1,145 @@
+---
+title: "Ambient Pages"
+layout: single
+author_profile: true
+particles: true
+---
+
+<head>
+    <title>Ambience</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<h1>Ambience</h1>
+
+Pages designed to be nothing but nice smooth animations and simulations (kinda
+like the background of this page!) Press slash on any ambient page for controls!
+{: .notice}
+
+<a href="/_pages/ambience/ambientLineParticles/" class="btn btn--primary"
+    >Dots and Lines</a
+>
+
+<a href="/_pages/ambience/colorQuilt/" class="btn btn--primary">Color Quilt</a>
+
+<a href="/_pages/ambience/circleClockPure/" class="btn btn--primary"
+    >Circle Clock</a
+>
+
+<a href="/_pages/ambience/gravityDots/" class="btn btn--primary"
+    >Gravity Dots</a
+>
+
+<a href="/_pages/ambience/glowLines/" class="btn btn--primary">Glow Lines</a>
+
+<a href="/_pages/ambience/boxes/" class="btn btn--primary">Boxes</a>
+
+<style>
+    .form-grid {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        grid-row-gap: 10px;
+        align-items: center;
+    }
+
+    input[type="text"].panic {
+        width: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+</style>
+
+<details id="color-tunnel">
+    <summary>Color Tunnel</summary>
+    <p>
+        You can use the controls below to input custom colors (in hex codes) or
+        press submit with no colors to use random colors. You can also leave the
+        panic text blank for the default panic text.
+    </p>
+
+    <div id="textbox-container">
+        <div>
+            <input type="text" name="textbox[]" /><button
+                type="button"
+                class="remove-textbox"
+            >
+                X
+            </button>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-grid">
+        <label for="prepanictext">Pre-panic text:</label>
+        <input
+            type="text"
+            id="pre-panic-text"
+            name="prepanictext"
+            class="panic"
+        />
+
+        <label for="postpanictext">Post-panic text:</label>
+        <input
+            type="text"
+            id="post-panic-text"
+            name="postpanictext"
+            class="panic"
+        />
+    </div>
+    <br />
+
+    <button type="button" id="add-button">Add</button>
+    <button type="button" id="submit-button">Submit</button>
+</details>
+
+<script>
+    let maxFields = 40;
+    let wrapper = $("#textbox-container");
+    let addButton = $("#add-button");
+    let submitButton = $("#submit-button");
+    let prePanicTextbox = $("#pre-panic-text");
+    let postPanicTextbox = $("#post-panic-text");
+    let textboxCount = 1;
+
+    addButton.click((e) => {
+        e.preventDefault();
+        if (textboxCount < maxFields) {
+            textboxCount++;
+            let newTextbox = $(
+                '<div><input type="text" name="textbox[]"/><button type="button" class="remove-textbox">X</button></div>'
+            );
+            wrapper.append(newTextbox);
+        }
+    });
+
+    wrapper.on("click", ".remove-textbox", (e) => {
+        e.preventDefault();
+        $(e.target).closest("div").remove();
+        textboxCount--;
+    });
+
+    submitButton.click(() => {
+        let textBoxvalues = "";
+        $("[name='textbox[]']").each(function () {
+            let regexed = $(this).val().replace(new RegExp("#", "g"), "");
+            if (regexed != "") {
+                textBoxvalues += "colors=%23" + regexed + "&";
+            }
+        });
+
+        let prePanic = $("[name='prepanictext']").val();
+        let postPanic = $($("[name='postpanictext']")).val();
+        if (prePanic != "") {
+            textBoxvalues += "pre=" + prePanic + "&";
+        }
+        if (postPanic != "") {
+            textBoxvalues += "post=" + postPanic + "&";
+        }
+        console.log(textBoxvalues);
+        window.location.href = "ambience/colorTunnel.html?" + textBoxvalues;
+    });
+</script>
+
+<!--IDEAS
+ - mouse blob path-->

@@ -1,0 +1,279 @@
+---
+layout: none
+---
+
+<head>
+    <title>Color Tunnel</title>
+    {% include favicon.html %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<style>
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #panicButton {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        background-color: #00000000;
+    }
+
+    p {
+        font-size: 3em;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: white;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+        animation: rainbow 10s linear;
+        animation-iteration-count: infinite;
+        font-weight: bold;
+    }
+
+    @keyframes rainbow {
+        100%,
+        0% {
+            color: rgb(255, 0, 0);
+        }
+        8% {
+            color: rgb(255, 127, 0);
+        }
+        16% {
+            color: rgb(255, 255, 0);
+        }
+        25% {
+            color: rgb(127, 255, 0);
+        }
+        33% {
+            color: rgb(0, 255, 0);
+        }
+        41% {
+            color: rgb(0, 255, 127);
+        }
+        50% {
+            color: rgb(0, 255, 255);
+        }
+        58% {
+            color: rgb(0, 127, 255);
+        }
+        66% {
+            color: rgb(0, 0, 255);
+        }
+        75% {
+            color: rgb(127, 0, 255);
+        }
+        83% {
+            color: rgb(255, 0, 255);
+        }
+        91% {
+            color: rgb(255, 0, 127);
+        }
+    }
+</style>
+
+<canvas id="canv"></canvas>
+<div id="panicButton">
+    <p id="panicText">PANIC</p>
+</div>
+
+<script>
+
+    const params = new URLSearchParams(window.location.search);
+    const regExp = /^#([0-9a-f]{3}){1,2}$/i;
+
+    $("#panicText").text(params.get("pre"));
+
+    var r;
+    var canvas = document.getElementById("canv");
+    var ctx = canvas.getContext("2d");
+    var button = document.getElementById("panicButton");
+
+    var palette = 0;
+    var speedOffset = 0;
+    var panic = false;
+    var slow = false;
+    var speedOffsetLimit = 3.5;
+    var msDelay = 15;
+    var speedOffsetStep = 0.01;
+
+    const boxes = [];
+
+    const defaultColors = [];
+    const userColors = [];
+
+    const colorPalettes = [defaultColors, userColors];
+
+    var offsetX, offsetY;
+
+    var answer = document.getElementById("panicText");
+    function myfunction() {
+        if (
+            navigator.userAgent.match(/Android/i) ||
+            navigator.userAgent.match(/webOS/i) ||
+            navigator.userAgent.match(/iPhone/i) ||
+            navigator.userAgent.match(/iPad/i) ||
+            navigator.userAgent.match(/iPod/i) ||
+            navigator.userAgent.match(/BlackBerry/i) ||
+            navigator.userAgent.match(/Windows Phone/i)
+        ) {
+            speedOffsetLimit = 14;
+            msDelay = 35;
+            speedOffsetStep = 1;
+        }
+        answer.innerHTML = a;
+    }
+
+    class Box {
+        constructor(_x, _y, _color) {
+            this.x = _x;
+            this.y = _y;
+            this.color = _color; // index of color
+            this.localXOffset = _color * offsetX;
+            this.localYOffset = _color * offsetY;
+        }
+
+        show() {
+            ctx.fillStyle = colorPalettes[palette][this.color];
+            ctx.fillRect(
+                this.localXOffset,
+                this.localYOffset,
+                innerWidth * window.devicePixelRatio - this.localXOffset * 2,
+                innerHeight * devicePixelRatio - this.localYOffset * 2
+            );
+
+            if (
+                this.localXOffset > canvas.width / 2 ||
+                this.localYOffset > canvas.height / 2
+            ) {
+                this.localXOffset = 0;
+                this.localYOffset = 0;
+                var me = boxes.pop();
+                boxes.unshift(me);
+            }
+        }
+    }
+
+    window.addEventListener("resize", () => {
+        clearTimeout(r);
+        r = setTimeout(() => {
+            resize();
+            reset();
+        }, 200);
+    });
+
+    canvas.addEventListener("click", () => {
+        palette++;
+        if (palette >= colorPalettes.length) palette = 0;
+        reset();
+    });
+
+    button.addEventListener("click", () => {
+        $("#panicText").text(params.get("post"));
+        if (!panic) {
+            panic = true;
+        } else {
+            slow = true;
+        }
+    });
+
+    reset();
+    resize();
+
+    function draw() {
+        // draw
+        ctx.fillStyle =
+            colorPalettes[
+                palette[[boxes[colorPalettes[palette].length - 1].color]]
+            ];
+        ctx.fillRect(
+            0,
+            0,
+            innerWidth * window.devicePixelRatio,
+            innerHeight * devicePixelRatio
+        );
+        for (let i = 0; i < boxes.length; i++) {
+            boxes[i].show();
+            boxes[i].localXOffset += speedOffset;
+            boxes[i].localYOffset += speedOffset;
+        }
+
+        if (slow) {
+            if (speedOffset - speedOffsetLimit > 2) {
+                speedOffset--;
+            } else if (speedOffset - speedOffsetLimit < -2) {
+                speedOffset += 0.01;
+            } else {
+                slow = false;
+                panic = false;
+            }
+        } else if (panic) {
+            speedOffset += speedOffsetStep;
+        }
+
+        window.requestAnimationFrame(draw);
+    }
+
+    function resize() {
+        if (window.devicePixelRatio >= 1) {
+            canvas.height = window.innerHeight * window.devicePixelRatio;
+            canvas.width = window.innerWidth * window.devicePixelRatio;
+        }
+
+        draw();
+    }
+
+    function reset() {
+        let colors = params.getAll("colors");
+
+        boxes.length = 0;
+
+        if (colors.length == 0) {
+            palette = 0;
+            defaultColors.length = 0;
+
+            let len = Math.floor(randomInt(40, 2));
+            for (let i = 0; i < len; i++) {
+                defaultColors.push(`RGB(${randomInt(255)}, ${randomInt(255)}, ${randomInt(255)}`);
+            }
+        } else {
+            palette = 1;
+            let warning = false;
+
+            userColors.length = 0;
+
+            for (let color of colors) {
+                if (regExp.test(color)){
+                    userColors.push(color);
+                } else if (!warning) {
+                    window.alert("Hey! One of your color codes isn't valid! Sorry :( " + color);
+                    warning = true;
+                }
+            }
+        }
+
+        offsetX =
+            (window.innerWidth * window.devicePixelRatio) /
+            colorPalettes[palette].length /
+            2;
+        offsetY =
+            (window.innerHeight * window.devicePixelRatio) /
+            colorPalettes[palette].length /
+            2;
+
+        for (let i = 0; i < colorPalettes[palette].length; i++) {
+            var box = new Box(0, 0, i);
+            boxes.push(box);
+        }
+    }
+
+    function randomInt(_max, _min = 0) {
+        return Math.floor((Math.random() * (_max - _min)) + _min);
+    }
+</script>
