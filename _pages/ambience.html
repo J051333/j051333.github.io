@@ -6,33 +6,46 @@ particles: true
 ---
 
 <head>
-    <title>Ambience</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<h1>Ambience</h1>
+<p class=".notice">
+    Pages designed to be nothing but nice smooth animations and simulations
+    (kinda like the background of this page!) Press slash on any ambient page
+    for controls!
+</p>
 
-Pages designed to be nothing but nice smooth animations and simulations (kinda
-like the background of this page!) Press slash on any ambient page for controls!
-{: .notice}
+<br />
 
-<a href="/_pages/ambience/ambientLineParticles/" class="btn btn--primary"
-    >Dots and Lines</a
->
-
-<a href="/_pages/ambience/colorQuilt/" class="btn btn--primary">Color Quilt</a>
-
-<a href="/_pages/ambience/circleClockPure/" class="btn btn--primary"
-    >Circle Clock</a
->
-
-<a href="/_pages/ambience/gravityDots/" class="btn btn--primary"
-    >Gravity Dots</a
->
-
-<a href="/_pages/ambience/glowLines/" class="btn btn--primary">Glow Lines</a>
-
-<a href="/_pages/ambience/boxes/" class="btn btn--primary">Boxes</a>
+<div>
+    <a href="/_pages/ambience/ambientLineParticles/" class="btn btn--primary"
+        >Dots and Lines</a
+    >
+</div>
+<div>
+    <a href="/_pages/ambience/colorQuilt/" class="btn btn--primary"
+        >Color Quilt</a
+    >
+</div>
+<div>
+    <a href="/_pages/ambience/circleClockPure/" class="btn btn--primary"
+        >Circle Clock</a
+    >
+</div>
+<div>
+    <a href="/_pages/ambience/gravityDots/" class="btn btn--primary"
+        >Gravity Dots</a
+    >
+</div>
+<div>
+    <a href="/_pages/ambience/glowLines/" class="btn btn--primary"
+        >Glow Lines</a
+    >
+</div>
+<div>
+    <a href="/_pages/ambience/boxes/" class="btn btn--primary">Boxes</a>
+</div>
+<br />
 
 <style>
     .form-grid {
@@ -47,9 +60,23 @@ like the background of this page!) Press slash on any ambient page for controls!
         padding: 5px;
         box-sizing: border-box;
     }
+
+    div.color-entry {
+        display: flex;
+        align-items: center;
+    }
+
+    input.color-entry,
+    button.color-entry {
+        margin-right: 5px;
+    }
+
+    .panic-label {
+        color: white;
+    }
 </style>
 
-<details id="color-tunnel">
+<details id="color-tunnel" class="btn btn--info">
     <summary>Color Tunnel</summary>
     <p>
         You can use the controls below to input custom colors (in hex codes) or
@@ -58,10 +85,10 @@ like the background of this page!) Press slash on any ambient page for controls!
     </p>
 
     <div id="textbox-container">
-        <div>
-            <input type="text" name="textbox[]" /><button
+        <div class="color-entry">
+            <input type="text" name="textbox[]" class="color-entry" /><button
                 type="button"
-                class="remove-textbox"
+                class="remove-textbox color-entry btn btn--danger"
             >
                 X
             </button>
@@ -71,7 +98,7 @@ like the background of this page!) Press slash on any ambient page for controls!
     <br />
 
     <div class="form-grid">
-        <label for="prepanictext">Pre-panic text:</label>
+        <label for="prepanictext" class="panic-label">Pre-panic text:</label>
         <input
             type="text"
             id="pre-panic-text"
@@ -79,7 +106,7 @@ like the background of this page!) Press slash on any ambient page for controls!
             class="panic"
         />
 
-        <label for="postpanictext">Post-panic text:</label>
+        <label for="postpanictext" class="panic-label">Post-panic text:</label>
         <input
             type="text"
             id="post-panic-text"
@@ -89,8 +116,10 @@ like the background of this page!) Press slash on any ambient page for controls!
     </div>
     <br />
 
-    <button type="button" id="add-button">Add</button>
-    <button type="button" id="submit-button">Submit</button>
+    <button type="button" id="add-button" class="btn btn--warning">Add</button>
+    <button type="button" id="submit-button" class="btn btn--success">
+        Submit
+    </button>
 </details>
 
 <script>
@@ -107,7 +136,7 @@ like the background of this page!) Press slash on any ambient page for controls!
         if (textboxCount < maxFields) {
             textboxCount++;
             let newTextbox = $(
-                '<div><input type="text" name="textbox[]"/><button type="button" class="remove-textbox">X</button></div>'
+                '<div class="color-entry"><input type="text" name="textbox[]" class="color-entry" /><button type="button" class="remove-textbox color-entry btn btn--danger">X</button></div>'
             );
             wrapper.append(newTextbox);
         }
@@ -137,7 +166,7 @@ like the background of this page!) Press slash on any ambient page for controls!
             textBoxvalues += "post=" + postPanic + "&";
         }
         console.log(textBoxvalues);
-        window.location.href = "ambience/colorTunnel.html?" + textBoxvalues;
+        window.location.href = "colorTunnel?" + textBoxvalues;
     });
 </script>
 
