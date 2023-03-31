@@ -88,7 +88,11 @@ layout: none
     const params = new URLSearchParams(window.location.search);
     const regExp = /^#([0-9a-f]{3}){1,2}$/i;
 
-    $("#panicText").text(params.get("pre"));
+    if(params.get("pre") != null) {
+        $("#panicText").text(params.get("pre"));
+    } else {
+        $("#panicText").text("PANICKING");
+    }
 
     var r;
     var canvas = document.getElementById("canv");
@@ -175,7 +179,10 @@ layout: none
     });
 
     button.addEventListener("click", () => {
-        $("#panicText").text(params.get("post"));
+        if (params.get("post") != null) {
+            $("#panicText").text(params.get("post"));
+        }
+
         if (!panic) {
             panic = true;
         } else {
