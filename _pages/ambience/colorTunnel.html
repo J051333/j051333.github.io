@@ -90,8 +90,6 @@ layout: none
 
     if(params.get("pre") != null) {
         $("#panicText").text(params.get("pre"));
-    } else {
-        $("#panicText").text("PANICKING");
     }
 
     var r;
@@ -181,6 +179,8 @@ layout: none
     button.addEventListener("click", () => {
         if (params.get("post") != null) {
             $("#panicText").text(params.get("post"));
+        } else {
+            $("#panicText").text("PANICKING");
         }
 
         if (!panic) {
