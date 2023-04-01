@@ -152,6 +152,8 @@ particles: true
         let textBoxvalues = "";
         $("[name='textbox[]']").each(function () {
             let regexed = $(this).val().replace(new RegExp("#", "g"), "");
+            regexed = regexed.replace(new RegExp(" ", "g"), "");
+            regexed = regexed.replace(new RegExp(",", "g"), "");
             if (regexed != "") {
                 textBoxvalues += "colors=%23" + regexed + "&";
             }
