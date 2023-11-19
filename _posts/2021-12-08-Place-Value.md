@@ -26,7 +26,7 @@ This tool was designed for three purposes:
  - As my submission to the [Alabama Governor's App Challenge](https://sites.google.com/view/algovernorsappchallenge)
 
 The graphics in this program were designed by Clip Art by Carrie @ C&C Teach First,
-www.ccteachfirst.blogspot.com.
+[Her Site](www.ccteachfirst.blogspot.com).
 
 This tool was designed for Deer Valley Elementary School, but is open to use by anyone! The code is public on the [GitHub](https://github.com/J051333/place-value/tree/main/Code).
 {: .notice--info}
