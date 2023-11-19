@@ -102,4 +102,4 @@ Make sure that the project type is Java and the JDK is the version you installed
 
 Then, give the project a name and click `Finish`.
 
-And that's it! Now you have your first (albeit blank) Java project! Now, [let's populate it!](/_posts/2022-04-20-First-Java-Program.md)
+And that's it! Now you have your first (albeit blank) Java project! Now, [let's populate it!](/tutorials/First-Java-Program/)
