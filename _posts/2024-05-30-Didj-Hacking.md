@@ -17,7 +17,7 @@ I had an old one of these lying around from when I was young and decided to see 
 The Didj conveniently has serial pins that expose root access to the console in the cartridge slot!
 
 Not my image, I suck at soldering :)
-![Didj UART pins](https://elinux.org/images/thumb/b/b8/Didj-uart.jpg/750px-Didj-uart.jpg)
+[![Didj UART pins](https://elinux.org/images/thumb/b/b8/Didj-uart.jpg/750px-Didj-uart.jpg)](https://elinux.org/LeapFrog_Pollux_Platform:_Hardwire_Serial_Connection)
 
 As per the image above, the UART TX pin is the leftmost green wire (Didj transmits serial from here), RX is the white wire (your serial input goes here), black is ground, and red is VCC +3.3v—only necessary if your FTDI needs a reference voltage, Arduinos do not. The ground *is* necessary because the Arduino and the Didj need a common ground. This just means connect the Didj ground to the Arduino ground. This way they both have a common `low` voltage.
 
