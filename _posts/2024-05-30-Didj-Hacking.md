@@ -19,14 +19,20 @@ The Didj conveniently has serial pins that expose root access to the console in 
 Not my image, I suck at soldering :)
 [![Didj UART pins](https://elinux.org/images/thumb/b/b8/Didj-uart.jpg/750px-Didj-uart.jpg)](https://elinux.org/LeapFrog_Pollux_Platform:_Hardwire_Serial_Connection)
 
-As per the image above, the UART TX pin is the leftmost green wire (Didj transmits serial from here), RX is the white wire (your serial input goes here), black is ground, and red is VCC +3.3v—only necessary if your FTDI needs a reference voltage, Arduinos do not. The ground *is* necessary because the Arduino and the Didj need a common ground. This just means connect the Didj ground to the Arduino ground. This way they both have a common `low` voltage.
+As per the image above, 
+ - the UART TX pin is the leftmost green wire (Didj transmits serial from here), connects to RX on the Arduino
+ - RX is the white wire (your serial input goes here), connects to TX on the Arduino
+ - black is ground, connects to gnd on the Arduino
+ - and red is VCC +3.3v—only necessary if your FTDI needs a reference voltage, Arduinos do not
+ 
+The ground *is* necessary because the Arduino and the Didj need a common ground. This just means connect the Didj ground to the Arduino ground. This way they both have a common `low` voltage.
 
-These use UART to for communicating with the console. UART is really simple and is what Arduinos use to communicate with computers as well (through the serial to USB converter chip CP2102). Conveniently, I had a Keyestudio Arduino Uno lying around and I set it up to communicate with the Didj. I later picked up an Arduino Mega instead (also Keyestudio, about $20 from [Amazon](https://www.amazon.com/KEYESTUDIO-Arduino-Type-C-Powerful-Contoller/dp/B08V4RCRS2/ref=sr_1_5?refinements=p_36%3A-2600&rnid=386442011&sr=8-5)). It has more Serial connections so I don't have to use software serial.
+These use UART to for communicating with the console. UART is really simple and is what Arduinos use to communicate with computers as well (through the serial to USB converter chip CP2102). Conveniently, I had a Keyestudio Arduino Uno lying around and I set it up to communicate with the Didj (just connected the three pins). I later picked up an Arduino Mega instead (also Keyestudio, about $20 from [Amazon](https://www.amazon.com/KEYESTUDIO-Arduino-Type-C-Powerful-Contoller/dp/B08V4RCRS2/ref=sr_1_5?refinements=p_36%3A-2600&rnid=386442011&sr=8-5)). It has more Serial connections so I don't have to use software serial.
 
 I like the Arduinos as opposed to FTDI breakout boards because they're a single (relatively cheap) board and can be used for so many other projects, but an FTDI breakout board with PuTTY would also work just fine.
 {: .notice--info}
 
-```ino
+```cpp
 // Code to turn the serial monitor into a terminal //
 void setup() {
   Serial.begin(115200);   // Communication with the PC
@@ -42,7 +48,8 @@ void loop() {
   }
 
   if (Serial1.available()) {
-    Serial.write(Serial1.read());
+    byte byteToWrite = Serial1.read();
+    Serial.write(byteToWrite);
   }
 }
 ```
