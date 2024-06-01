@@ -12,7 +12,7 @@ particles: true
 
 # [POST IS WIP], How I Hacked my Didj
 
-The LeapFrog Didj was released in August 22, 2008, a small handheld linux device, but designed to be used by children for learning.
+The LeapFrog Didj was released on August 22, 2008, a small handheld linux device, but designed to be used by children for learning.
 
 I had an old one of these lying around from when I was young and decided to see what I could do with it.
 
