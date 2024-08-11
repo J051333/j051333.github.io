@@ -10,7 +10,7 @@ tags:
 particles: true
 ---
 
-# [POST IS WIP], How I Hacked my Didj
+# How I Hacked my Didj
 
 The LeapFrog Didj was released on August 22, 2008, a small handheld linux device, but designed to be used by children for learning.
 
@@ -70,4 +70,6 @@ However, this didn't work for me. Turns out, due to my lack of soldering experti
 Be careful soldering! You can damage the board too!
 {: .notice--warning}
 
-At this point, you're seeing the `#`. You can try a normal linux command like `echo` or `ls` to make sure that your input is working. 
+At this point, you're seeing the `#`. You can try a normal linux command like `echo` or `ls` to make sure that your input is working. Now you have root access to your Didj!
+
+I may work more on this project at a later date.
