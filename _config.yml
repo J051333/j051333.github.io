@@ -19,7 +19,7 @@ locale                   : "en-US"
 title                    : "J051333"
 title_separator          : "-"
 subtitle                 : "Software Developer" # site tagline that appears below site title in masthead
-name                     : "J051333"
+name                     : "Josi Whitlock"
 description              : "Programmer of things c:"
 url                      : "https://j051333.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
