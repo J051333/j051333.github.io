@@ -23,6 +23,7 @@ layout: none
   var canvas = document.getElementById("canv");
   var ctx = canvas.getContext("2d");
   var rows = []
+  var incrementVal = 2;
 
   window.addEventListener("resize", () => {
     r = setTimeout(() => {
@@ -45,6 +46,13 @@ layout: none
         ctx.lineTo(canvas.width, this.y)
         ctx.stroke();
     }
+
+    procede() {
+      this.hue += incrementVal;
+      if (this.hue >= 360) {
+        this.hue = 0;
+      }
+    }
   }
 
   resize();
@@ -59,14 +67,14 @@ layout: none
 
     rows.length = 0;
     for (let i = canvas.height; i >= 0; i--) {
-        rows[i] = new Row(i, i);
+        rows[i] = new Row(i, i % 360);
     }
 
   setInterval(draw, 35); // basically 30 fps
 
   function draw() {
     // draw
-    rows.forEach(row => {row.show()});
+    rows.forEach(row => {row.show(); row.procede();});
     // rows[50].show();
   }
 
