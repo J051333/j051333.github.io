@@ -1,0 +1,2 @@
+Includes the sidebar, which includes socials and author-profile
+{% include sidebar.html %}

@@ -1,9 +1,215 @@
 ---
-layout: home
+layout: splash
 author_profile: true
 ---
-<!-- <h3 class="archive__subtitle">Pages:</h3>
-<h2 class="archive__item-title no_toc" itemprop="headline">
-    <a href="/place-value/placevalue.html">Place Value</a>
-    <a href="/_pages/about.md">About Josi</a>
-</h2> -->
+
+<style>
+    h1 {
+        margin: 50px 0px 0px 50px;
+        font-size: 4rem;
+    }
+
+    .subhead {
+        margin-left: 50px !important;
+        margin-bottom: 10px !important;
+        font-size: 2rem !important;
+    }
+
+    .subsubhead {
+        margin-left: 50px !important;
+        font-size: 1rem !important;
+    }
+
+    .pearl-text {
+        font-weight: bold;
+        position: relative;
+        color: transparent;
+        background: linear-gradient(130deg,
+                #ffffff,
+                #cc8ef9,
+                #7ec8f5,
+                #5fffb7,
+                #ffffff);
+        background-size: 200% 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 5s ease-in-out infinite;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        /* Two columns */
+        grid-template-rows: repeat(2, minmax(120px, 0.5fr));
+        /* Two rows */
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        margin: 50px 50px 0px 50px;
+        padding: 15px;
+    }
+
+    .metal-card {
+        padding: 1.5rem;
+        border-radius: 1rem;
+        color: #ccc;
+        text-align: center;
+        background:
+            linear-gradient(145deg, #2c2c2c, #1a1a1a 40%, #3a3a3a 70%, #1e1e1e);
+        border: 1px solid #444;
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.6),
+            inset 0 1px 1px rgba(255, 255, 255, 0.05),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+        backdrop-filter: saturate(110%);
+    }
+
+    .metal-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        border-radius: 1rem;
+    }
+
+    .metal-card:hover::before {
+        opacity: 1;
+    }
+
+    .square {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .glass-card-wrap {
+        --shimmer-deg: 130deg;
+        --opacity: 0.1;
+        border-radius: 18px;
+
+        overflow: hidden;
+
+        background: linear-gradient(calc(var(--shimmer-deg) + 20deg),
+                /* #ffffff7f, */
+                rgba(255, 255, 255, var(--opacity)),
+                /* #cc8ef97f, */
+                rgba(204, 142, 249, var(--opacity)),
+                /* #7ec8f57f, */
+                rgba(126, 200, 245, var(--opacity)),
+                /* #5fffb77f, */
+                rgba(95, 255, 183, var(--opacity)),
+                /* #ffffff7f */
+                rgba(255, 255, 255, var(--opacity)));
+        backdrop-filter: blur(50px);
+        -webkit-backdrop-filter: blur(50px);
+        padding: 3px;
+        background-clip: padding-box;
+        -webkit-background-clip: padding-box;
+    }
+
+    .glass-card {
+        --shimmer-deg: 130deg;
+        --opacity: 0.25;
+
+        border-radius: 16px;
+
+        overflow: hidden;
+
+        background: linear-gradient(calc(var(--shimmer-deg)),
+                /* #ffffff7f, */
+                rgba(255, 255, 255, var(--opacity)),
+                /* #cc8ef97f, */
+                rgba(204, 142, 249, var(--opacity)),
+                /* #7ec8f57f, */
+                rgba(126, 200, 245, var(--opacity)),
+                /* #5fffb77f, */
+                rgba(95, 255, 183, var(--opacity)),
+                /* #ffffff7f */
+                rgba(255, 255, 255, var(--opacity)));
+        backdrop-filter: blur(50px);
+        background-clip: padding-box;
+        -webkit-background-clip: padding-box;
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+</style>
+
+<h1 class="pearl-text"><b>Hey there</b></h1>
+<p class="subhead pearl-text">I'm Josi and I like to make stuff</p>
+<p class="subsubhead pearl-text">Check out a couple of my projects:</p>
+
+<div class="grid metal-card">
+    <div class="glass-card-wrap square">
+        <div class="glass-card square">
+            <p class="subsubhead pearl-text">Check</p>
+
+        </div>
+    </div>
+    <div class="glass-card-wrap square">
+        <div class="glass-card square">
+            <p class="subsubhead pearl-text">o</p>
+
+        </div>
+    </div>
+    <div class="glass-card-wrap square">
+        <div class="glass-card square">
+            <p class="subsubhead pearl-text">asd</p>
+
+        </div>
+    </div>
+    <div class="glass-card-wrap square">
+        <div class="glass-card square">
+            <p class="subsubhead pearl-text">cos:</p>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.glass-card').forEach(el => {
+        const d = Math.floor(Math.random() * 360);
+        //el.style.setProperty('--shimmer-deg', `${d}deg`);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        const originX = -2000;
+        const originY = window.innerHeight + 100;
+
+        const dx = e.clientX - originX;
+        const dy = e.clientY - originY;
+
+        const angleRad = Math.atan2(dy, dx);
+        const angleDeg = (angleRad * 180 / Math.PI + 360) % 360;
+
+        // Add a difference between buttons.
+        document.querySelectorAll('.glass-card').forEach(el => {
+            el.style.setProperty('--shimmer-deg', `${angleDeg}deg`);
+        });
+
+        document.querySelectorAll('.glass-card-wrap').forEach(el => {
+            el.style.setProperty('--shimmer-deg', `${angleDeg}deg`);
+        });
+    });
+
+
+</script>

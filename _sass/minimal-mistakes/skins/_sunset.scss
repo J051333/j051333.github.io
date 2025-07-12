@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Sunset skin
+   ========================================================================== */
+
+/* Colors */
+// Color Palette — Sunset Dark Theme
+$background-color: #1e1b2f !default;       // twilight purple
+$text-color: #f8c8dc !default;             // soft pastel pink
+$muted-text-color: #c78fa0 !default;       // dusty pink
+$primary-color: #ff6b4a !default;          // glowing sunset orange
+$border-color: mix(#1e1b2f, #f8c8dc, 40%) !default;
+$footer-background-color: #3a234d !default; // deep plum
+$link-color: #ffc1a1 !default;             // orangey-pink links
+$masthead-link-color: $text-color !default;
+$masthead-link-color-hover: lighten($text-color, 10%) !default;
+$navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
+
+// Footer Styling
+.page__footer {
+  background-color: $footer-background-color;
+  color: #f8c8dc !important;
+}
+
+.page__footer-follow .social-icons i,
+.page__footer-follow .social-icons .svg-inline--fa {
+  color: inherit;
+}
+
+// Page Background — Gradient Down the Front
+body {
+  position: relative;
+  z-index: 0;
+  color: $text-color;
+  background-color: $background-color;
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      #1e1b2f 0%,
+      #3a234d 40%,
+      #ff6b4a 100%
+    );
+    opacity: 0.6;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+
+
