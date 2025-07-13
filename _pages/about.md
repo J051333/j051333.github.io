@@ -1,5 +1,5 @@
 ---
-title: "Who is Josi?"
+title: "Who am I?"
 layout: single
 author_profile: true
 particles: true

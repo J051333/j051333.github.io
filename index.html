@@ -90,53 +90,71 @@ author_profile: true
         font-weight: bold;
     }
 
-    .glass-card-wrap {
-        --shimmer-deg: 130deg;
-        --opacity: 0.1;
-        border-radius: 18px;
+    @property --color1 {
+        syntax: '<color>';
+        initial-value: rgba(173, 216, 230, 0.3);
+        inherits: false;
+    }
 
-        overflow: hidden;
-
-        background: linear-gradient(calc(var(--shimmer-deg) + 20deg),
-                /* #ffffff7f, */
-                rgba(255, 255, 255, var(--opacity)),
-                /* #cc8ef97f, */
-                rgba(204, 142, 249, var(--opacity)),
-                /* #7ec8f57f, */
-                rgba(126, 200, 245, var(--opacity)),
-                /* #5fffb77f, */
-                rgba(95, 255, 183, var(--opacity)),
-                /* #ffffff7f */
-                rgba(255, 255, 255, var(--opacity)));
-        backdrop-filter: blur(50px);
-        -webkit-backdrop-filter: blur(50px);
-        padding: 3px;
-        background-clip: padding-box;
-        -webkit-background-clip: padding-box;
+    @property --color2 {
+        syntax: '<color>';
+        initial-value: rgba(173, 216, 230, 0.3);
+        inherits: false;
     }
 
     .glass-card {
-        --shimmer-deg: 130deg;
-        --opacity: 0.25;
+        background: linear-gradient(135deg, var(--color1), var(--color2));
+        backdrop-filter: blur(8px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: perspective(1000px) rotateY(calc(var(--shimmer-deg) * 0.5)) rotateX(calc(var(--shimmer-deg) * -0.2));
 
-        border-radius: 16px;
+        transition: --color1 0.5s ease-in-out, --color2 0.5s ease-in-out,
+            border-color 0.5s ease-in-out,
+            box-shadow 0.5s ease-in-out,
+            transform 0.3s ease-out;
 
-        overflow: hidden;
+        cursor: pointer;
+        user-select: none;
+    }
 
-        background: linear-gradient(calc(var(--shimmer-deg)),
-                /* #ffffff7f, */
-                rgba(255, 255, 255, var(--opacity)),
-                /* #cc8ef97f, */
-                rgba(204, 142, 249, var(--opacity)),
-                /* #7ec8f57f, */
-                rgba(126, 200, 245, var(--opacity)),
-                /* #5fffb77f, */
-                rgba(95, 255, 183, var(--opacity)),
-                /* #ffffff7f */
-                rgba(255, 255, 255, var(--opacity)));
-        backdrop-filter: blur(50px);
-        background-clip: padding-box;
-        -webkit-background-clip: padding-box;
+    .glass-card:hover,
+    .glass-card:active {
+        backdrop-filter: blur(12px) saturate(120%);
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        --shimmer-deg: 10deg;
+    }
+
+    .glass-card:hover {
+        --color1: rgba(67, 116, 253, 0.4);
+        --color2: rgba(255, 69, 0, 0.4);
+
+        transition: --color1 0.5s ease-in-out, --color2 0.5s ease-in-out,
+            border-color 0.5s ease-in-out,
+            box-shadow 0.5s ease-in-out,
+            transform 0.3s ease-out;
+    }
+
+    .glass-card:active {
+        --color1: rgba(40, 73, 165, 0.682);
+        --color2: rgba(173, 46, 0, 0.577);
+
+        transform: perspective(1000px) rotateY(calc(var(--shimmer-deg) * 0.5)) rotateX(calc(var(--shimmer-deg) * -0.2)) scale(1.02);
+
+        transition: --color1 0.01s ease-in-out, --color2 0.01s ease-in-out,
+            border-color 0.01s ease-in-out,
+            box-shadow 0.01s ease-in-out,
+            transform 0.1s ease-out;
+    }
+
+    /* Define --shimmer-deg for the tilt-text */
+    .tilt-text {
+        transform: perspective(1000px) rotateY(calc(var(--shimmer-deg) * 0.5)) rotateX(calc(var(--shimmer-deg) * -0.2));
+        transition: transform 0.3s ease-out;
+        font-size: 1rem !important;
+        margin: 0px !important;
     }
 
     @keyframes shimmer {
@@ -159,57 +177,35 @@ author_profile: true
 <p class="subsubhead pearl-text">Check out a couple of my projects:</p>
 
 <div class="grid metal-card">
-    <div class="glass-card-wrap square">
-        <div class="glass-card square">
-            <p class="subsubhead pearl-text">Check</p>
-
-        </div>
+    <div class="glass-card square" data-link="/_pages/ambience">
+        <p class="pearl-text tilt-text">Ambience</p>
     </div>
-    <div class="glass-card-wrap square">
-        <div class="glass-card square">
-            <p class="subsubhead pearl-text">o</p>
 
-        </div>
+    <div class="glass-card square" data-link="/tools/projects/Place-Value/">
+        <p class="pearl-text tilt-text">Place Value</p>
     </div>
-    <div class="glass-card-wrap square">
-        <div class="glass-card square">
-            <p class="subsubhead pearl-text">asd</p>
 
-        </div>
+    <div class="glass-card square" data-link="https://github.com/intentionalDisaster99/2025-ACM-Hackathon">
+        <p class="pearl-text tilt-text">Estro-Tracker</p>
     </div>
-    <div class="glass-card-wrap square">
-        <div class="glass-card square">
-            <p class="subsubhead pearl-text">cos:</p>
 
-        </div>
+    <div class="glass-card square" data-link="/_pages/about">
+        <p class="pearl-text tilt-text">About Me</p>
     </div>
 </div>
 
 <script>
-    document.querySelectorAll('.glass-card').forEach(el => {
-        const d = Math.floor(Math.random() * 360);
-        //el.style.setProperty('--shimmer-deg', `${d}deg`);
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        const originX = -2000;
-        const originY = window.innerHeight + 100;
-
-        const dx = e.clientX - originX;
-        const dy = e.clientY - originY;
-
-        const angleRad = Math.atan2(dy, dx);
-        const angleDeg = (angleRad * 180 / Math.PI + 360) % 360;
-
-        // Add a difference between buttons.
-        document.querySelectorAll('.glass-card').forEach(el => {
-            el.style.setProperty('--shimmer-deg', `${angleDeg}deg`);
-        });
-
-        document.querySelectorAll('.glass-card-wrap').forEach(el => {
-            el.style.setProperty('--shimmer-deg', `${angleDeg}deg`);
+    document.querySelectorAll('.glass-card').forEach((card) => {
+        card.addEventListener('click', (e) => {
+            const link = card.dataset.link;
+            if (link) {
+                // Support Ctrl+click or Cmd+click to open in new tab
+                if (e.ctrlKey || e.metaKey) {
+                    window.open(link, '_blank');
+                } else {
+                    window.location.href = link;
+                }
+            }
         });
     });
-
-
 </script>
