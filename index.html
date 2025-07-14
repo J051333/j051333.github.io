@@ -4,24 +4,47 @@ author_profile: true
 ---
 
 <style>
+    :root {
+        --main-left-margin: 2.5rem;
+        --main-right-margin: 0rem;
+
+        --min-square-width: 7.5rem;
+        --min-square-height: 6rem;
+        --grid-card-display: grid;
+        --text-align-pearl: auto;
+    }
+
+    /* The min that the grid looks nice on, what we can consider a mobile device */
+    @media (max-width: 420px) {
+        :root {
+            --grid-card-display: flex;
+            --main-left-margin: 1.5rem;
+            --main-right-margin: 1.5rem;
+            --text-align-pearl: center;
+        }
+    }
+
     h1 {
-        margin: 50px 0px 0px 50px;
+        margin: 50px var(--main-right-margin) 0px var(--main-left-margin);/*50px;*/
         font-size: 4rem;
     }
 
     .subhead {
-        margin-left: 50px !important;
+        margin-left: var(--main-left-margin) !important;
+        margin-right: var(--main-right-margin) !important;
         margin-bottom: 10px !important;
         font-size: 2rem !important;
     }
 
     .subsubhead {
-        margin-left: 50px !important;
+        margin-left: var(--main-left-margin) !important;
+        margin-right: var(--main-right-margin) !important;
         font-size: 1rem !important;
     }
 
     .pearl-text {
         font-weight: bold;
+        text-align: var(--text-align-pearl);
         position: relative;
         color: transparent;
         background: linear-gradient(130deg,
@@ -38,16 +61,18 @@ author_profile: true
     }
 
     .grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        display: var(--grid-card-display);
+        grid-template-columns: repeat(2, minmax(var(--min-square-width), 1fr));
         /* Two columns */
-        grid-template-rows: repeat(2, minmax(120px, 0.5fr));
+        grid-template-rows: repeat(2, minmax(var(--min-square-height), 0.5fr));
         /* Two rows */
+
+        flex-direction: column;
         gap: 10px;
         justify-content: center;
         align-items: center;
         height: auto;
-        margin: 50px 50px 0px;
+        margin: var(--main-left-margin) var(--main-left-margin) var(--main-right-margin);
         padding: 15px;
     }
 
@@ -208,4 +233,12 @@ author_profile: true
             }
         });
     });
+
+    function checkScreenSize() {
+        if (window.innerWidth < 240) {
+            alert("Why is your screen so small? Things might not look right here.");
+        }
+    }
+
+    window.addEventListener('load', checkScreenSize);
 </script>
