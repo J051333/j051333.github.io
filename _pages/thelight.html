@@ -1,0 +1,324 @@
+---
+layout: none
+---
+<head>
+  <title>The Light</title>
+  {% include favicon.html %}
+</head>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Make sure it's on top of the canvas */
+    font-family: monospace;
+  }
+
+  #modal-content {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid #555;
+    min-width: 300px;
+    max-width: 80%;
+    text-align: center;
+  }
+
+  #modal-buttons button {
+    background-color: #333;
+    border: 1px solid #777;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 5px 0 5px;
+    cursor: pointer;
+    font-family: monospace;
+  }
+
+  #modal-buttons button:hover {
+    background-color: #555;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<canvas id="canv"></canvas>
+<div id="modal-container" class="hidden">
+  <div id="modal-content">
+    <p id="modal-message"></p>
+    <div id="modal-buttons"></div>
+  </div>
+</div>
+
+<script>
+  var canvas = document.getElementById("canv");
+  var ctx = canvas.getContext("2d");
+  var r;
+
+  // --- Game World Configuration ---
+  const WORLD_COLS = 200; // World is much larger than the screen
+  const WORLD_ROWS = 200;
+  const CELL_SIZE = 50; // Each character cell is a fixed size square
+  const CHAR_PROPERTIES = {
+    '.': { color: '#555', solid: false },       // Floor
+    ',': { color: '#444', solid: false },       // Floor variation
+    '#': { color: '#AA2222', solid: true },     // Wall
+    'T': { color: 'green', solid: true },       // Tree
+    '~': { color: 'blue', solid: true },        // Water
+    '@': { color: 'white', solid: true },       // Player
+  };
+
+  let worldGrid = [];
+  let isModalOpen = false;
+  const modalContainer = document.getElementById('modal-container');
+  const modalMessage = document.getElementById('modal-message');
+  const modalButtons = document.getElementById('modal-buttons');
+
+  let player = {
+    x: 0,
+    y: 0,
+    char: '@',
+    underfoot: null // Stores the cell object the player is on top of
+  };
+
+  const pSBC=(p,c0,c1,l)=>{
+    let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";
+    if(typeof(p)!="number"||p<-1||p>1||typeof(c0)!="string"||(c0[0]!='r'&&c0[0]!='#')||(c1&&!a))return null;
+    if(!this.pSBCr)this.pSBCr=(d)=>{
+        let n=d.length,x={};
+        if(n>9){
+            [r,g,b,a]=d=d.split(","),n=d.length;
+            if(n<3||n>4)return null;
+            x.r=i(r[3]=="a"?r.slice(5):r.slice(4)),x.g=i(g),x.b=i(b),x.a=a?parseFloat(a):-1
+        }else{
+            if(n==8||n==6||n<4)return null;
+            if(n<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(n>4?d[4]+d[4]:"");
+            d=i(d.slice(1),16);
+            if(n==9||n==5)x.r=d>>24&255,x.g=d>>16&255,x.b=d>>8&255,x.a=m((d&255)/0.255)/1000;
+            else x.r=d>>16,x.g=d>>8&255,x.b=d&255,x.a=-1
+        }return x};
+    h=c0.length>9,h=a?c1.length>9?true:c1=="c"?!h:false:h,f=this.pSBCr(c0),P=p<0,t=c1&&c1!="c"?this.pSBCr(c1):P?{r:0,g:0,b:0,a:-1}:{r:255,g:255,b:255,a:-1},p=P?p*-1:p,P=1-p;
+    if(!f||!t)return null;
+    if(l)r=m(P*f.r+p*t.r),g=m(P*f.g+p*t.g),b=m(P*f.b+p*t.b);
+    else r=m((P*f.r**2+p*t.r**2)**0.5),g=m((P*f.g**2+p*t.g**2)**0.5),b=m((P*f.b**2+p*t.b**2)**0.5);
+    a=f.a,t=t.a,f=a>=0||t>=0,a=f?a<0?t:t<0?a:a*P+t*p:0;
+    if(h)return"rgb"+(f?"a(":"(")+r+","+g+","+b+(f?","+m(a*1000)/1000:"")+")";
+    else return"#"+(4294967296+r*16777216+g*65536+b*256+(f?m(a*255):0)).toString(16).slice(1,f?undefined:-2)
+  }
+
+  // A simple class to hold cell data
+  class Cell {
+    constructor(char, color, solid = true) {
+      this.char = char;
+      this.color = color;
+      this.solid = solid;
+    }
+  }
+
+  window.addEventListener("resize", () => {
+    clearTimeout(r);
+    r = setTimeout(() => {
+      resize();
+    }, 200)
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (isModalOpen) {
+      switch (event.key) {
+        case 'e': case 'Escape':
+          closeModal();
+          break;
+      }
+      return; // After checking for modal keys, block further game input.
+    }
+
+    let dx = 0;
+    let dy = 0;
+
+    switch (event.key) {
+      case 'ArrowUp': case 'w': dy = -1; break;
+      case 'ArrowDown': case 's': dy = 1; break;
+      case 'ArrowLeft': case 'a': dx = -1; break;
+      case 'ArrowRight': case 'd': dx = 1; break;
+      case 'm':
+        showModal(
+            "You found a treasure chest! What do you do?",
+            [
+                { text: 'Open It', callback: () => console.log("You got some loot!") },
+                { text: 'Leave It', callback: () => console.log("You walk away.") },
+            ]
+        );
+        break;
+      default: return; // Not a movement key, do nothing.
+    }
+
+    const nextX = player.x + dx;
+    const nextY = player.y + dy;
+
+    // --- Collision Check ---
+    // Check world bounds and if the target cell is solid
+    if (nextX >= 0 && nextX < WORLD_COLS && nextY >= 0 && nextY < WORLD_ROWS) {
+      const targetCell = worldGrid[nextY][nextX];
+      if (!targetCell.solid) {
+        // Restore the old tile the player was on
+        worldGrid[player.y][player.x] = player.underfoot;
+
+        // Update player's world coordinates
+        player.x = nextX;
+        player.y = nextY;
+
+        // Store the new tile the player is standing on
+        player.underfoot = worldGrid[player.y][player.x];
+
+        // Place player character in the grid
+        const playerProps = CHAR_PROPERTIES[player.char];
+        worldGrid[player.y][player.x] = new Cell(player.char, playerProps.color, playerProps.solid);
+      }
+    }
+    event.preventDefault(); // Prevent scrolling the page for wasd/arrows
+  });
+
+  init();
+
+  // A game loop isn't strictly necessary if the screen is static,
+  // but it's useful for animations or game logic updates.
+  setInterval(draw, 50);
+
+  function draw() {
+    // Clear the canvas
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // --- Camera and Viewport Calculation ---
+    const viewCols = Math.ceil(canvas.width / CELL_SIZE);
+    const viewRows = Math.ceil(canvas.height / CELL_SIZE);
+
+    // Top-left corner of the viewport in world coordinates
+    const startCol = player.x - Math.floor(viewCols / 2);
+    const startRow = player.y - Math.floor(viewRows / 2);
+
+    // --- Render the world relative to the player ---
+    for (let y = 0; y < viewRows; y++) {
+      for (let x = 0; x < viewCols; x++) {
+        const worldX = startCol + x;
+        const worldY = startRow + y;
+
+        // Check if the coordinate is within the world bounds
+        if (worldX >= 0 && worldX < WORLD_COLS && worldY >= 0 && worldY < WORLD_ROWS) {
+          const cell = worldGrid[worldY][worldX];
+          if (cell.char !== ' ') { // Small optimization
+            // --- Add Glow Effect ---
+            // The glow color should match the text color for a nice effect.
+            ctx.shadowColor = pSBC(-0.5, cell.color);
+            ctx.shadowBlur = 5; // Adjust this value for more or less glow.
+
+            ctx.fillStyle = cell.color;
+            // Calculate the pixel position to draw the character
+            const screenX = x * CELL_SIZE + CELL_SIZE / 2;
+            const screenY = y * CELL_SIZE + CELL_SIZE / 2;
+            ctx.fillText(cell.char, screenX, screenY);
+
+          }
+        }
+      }
+    }
+
+    // --- Reset shadow to avoid affecting other draw calls if any are added later ---
+    ctx.shadowBlur = 0;
+  }
+
+  function showModal(message, buttonConfigs) {
+    isModalOpen = true;
+    modalMessage.textContent = message;
+    modalButtons.innerHTML = ''; // Clear old buttons
+
+    buttonConfigs.forEach(config => {
+      const button = document.createElement('button');
+      button.textContent = config.text;
+      button.onclick = () => {
+        // We always close the modal after an action
+        closeModal();
+        // Then, if a callback exists, we fire it
+        if (config.callback) {
+          config.callback();
+        }
+      };
+      modalButtons.appendChild(button);
+    });
+
+    modalContainer.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    isModalOpen = false;
+    modalContainer.classList.add('hidden');
+  }
+
+  function resize() {
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    } else {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+    }
+    // Update font settings on resize
+    ctx.font = `${CELL_SIZE * 0.9}px monospace`; // Font size relative to cell size
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+  }
+
+  function init() {
+    // Initialize the world grid with random characters and colors
+    worldGrid = [];
+    for (let y = 0; y < WORLD_ROWS; y++) {
+      const row = [];
+      for (let x = 0; x < WORLD_COLS; x++) {
+        // Procedurally generate a simple world of floor and walls
+        let char = (Math.random() > 0.8) ? '#' : '.';
+        const properties = CHAR_PROPERTIES[char];
+        row.push(new Cell(char, properties.color, properties.solid));
+      }
+      worldGrid.push(row);
+    }
+
+    // Place player in the center of the world
+    player.x = Math.floor(WORLD_COLS / 2);
+    player.y = Math.floor(WORLD_ROWS / 2);
+
+    // Ensure the starting area is clear for the player
+    const startAreaSize = 2;
+    for (let y = player.y - startAreaSize; y <= player.y + startAreaSize; y++) {
+      for (let x = player.x - startAreaSize; x <= player.x + startAreaSize; x++) {
+        if (worldGrid[y] && worldGrid[y][x]) {
+          worldGrid[y][x] = new Cell('.', CHAR_PROPERTIES['.'].color, false);
+        }
+      }
+    }
+
+    // Store what's under the player and place the player in the grid
+    player.underfoot = worldGrid[player.y][player.x];
+    const playerProps = CHAR_PROPERTIES[player.char];
+    worldGrid[player.y][player.x] = new Cell(player.char, playerProps.color, playerProps.solid);
+
+    // Initial resize and setup
+    resize();
+  }
+</script>

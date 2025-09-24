@@ -31,3 +31,4 @@ _site
 .idea/modules.xml
 .idea/vcs.xml
 .idea/modules.xml
+.blackboxrules
