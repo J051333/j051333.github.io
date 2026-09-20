@@ -27,23 +27,25 @@ layout: none
   var sizeVar = 10;
   var strokeVar = 4;
   var smallerRatio = 0.35;
-  var shiftSize = 0.3;
+  var shiftSize = 5;
   var currentTime = 0;
   var lastTime = 0;
+  var r;
 
   window.addEventListener("resize", () => {
+    clearTimeout(r);
     r = setTimeout(() => {
       resize();
       reset();
+      console.log("Resize");
     }, 200);
-    clearTimeout(r);
   });
 
   class Star {
     constructor(_x, _y, _size, _interval, _hue) {
       this.x = _x,
         this.y = _y,
-        this.size = _size,
+        this.size = _size * window.devicePixelRatio / 1.5,
         this.interval = _interval,
         this.hue = _hue
         this.time = 0;
@@ -51,17 +53,17 @@ layout: none
     }
 
     show() {
-      this.time += (currentTime - lastTime) * this.direction;
+      let timestep = Math.min((currentTime - lastTime), 350);
+      this.time += timestep * this.direction;
 
       if (this.time <= -this.interval || this.time >= this.interval) {
         this.direction *= -1;
-        //console.log(this.time + " " + this.interval);
       }
 
-      let offset = this.size * sizeVar;// + (this.time / this.interval) * shiftSize;
+      let offset = this.size * sizeVar + Math.sin(this.time / this.interval) * shiftSize;
 
       ctx.beginPath();
-      ctx.lineWidth = this.size * strokeVar;
+      ctx.lineWidth = this.size * strokeVar * Math.max(Math.sin(this.time / this.interval), 0.1);
       ctx.lineCap = "round";
       ctx.strokeStyle = `hsl(${this.hue}, 80%, 90%)`;
       ctx.moveTo(this.x, this.y + offset);
@@ -83,14 +85,17 @@ layout: none
   // Setup
 
   function reset() {
-
+    stars.length = 0;
+    for (let i = 0; i < 500; i++) {
+      stars[i] = new Star(Math.random() * canvas.width, Math.random() * canvas.height, Math.random(), Math.random() * 2000 + 1000, Math.random() * 360);
+    }
   }
 
   console.log(canvas.height);
 
   stars.length = 0;
   for (let i = 0; i < 500; i++) {
-    stars[i] = new Star(Math.random() * canvas.width, Math.random() * canvas.height, Math.random(), Math.random() * 5000, Math.random() * 360);
+    stars[i] = new Star(Math.random() * canvas.width, Math.random() * canvas.height, Math.random(), Math.random() * 2000 + 1000, Math.random() * 360);
   }
   currentTime = lastTime = Date.now();
 
@@ -104,8 +109,6 @@ layout: none
     // draw
     stars.forEach(star => { star.show(); });
     // rows[50].show();
-    if (stars[50] != undefined)
-    console.log(stars[50].time);
   }
 
   function resize() {
@@ -113,6 +116,7 @@ layout: none
       canvas.height = window.innerHeight * window.devicePixelRatio;
       canvas.width = window.innerWidth * window.devicePixelRatio;
     }
+
 
     draw();
   }
