@@ -1,0 +1,121 @@
+---
+layout: none
+---
+
+<head>
+  <title>Stars</title>
+  {% include favicon.html %}
+</head>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<canvas id="canv"></canvas>
+
+<script>
+  var canvas = document.getElementById("canv");
+  var ctx = canvas.getContext("2d");
+  var stars = []
+  var incrementVal = 2;
+  var sizeVar = 10;
+  var strokeVar = 4;
+  var smallerRatio = 0.35;
+  var shiftSize = 0.3;
+  var currentTime = 0;
+  var lastTime = 0;
+
+  window.addEventListener("resize", () => {
+    r = setTimeout(() => {
+      resize();
+      reset();
+    }, 200);
+    clearTimeout(r);
+  });
+
+  class Star {
+    constructor(_x, _y, _size, _interval, _hue) {
+      this.x = _x,
+        this.y = _y,
+        this.size = _size,
+        this.interval = _interval,
+        this.hue = _hue
+        this.time = 0;
+        this.direction = 1;
+    }
+
+    show() {
+      this.time += (currentTime - lastTime) * this.direction;
+
+      if (this.time <= -this.interval || this.time >= this.interval) {
+        this.direction *= -1;
+        //console.log(this.time + " " + this.interval);
+      }
+
+      let offset = this.size * sizeVar;// + (this.time / this.interval) * shiftSize;
+
+      ctx.beginPath();
+      ctx.lineWidth = this.size * strokeVar;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = `hsl(${this.hue}, 80%, 90%)`;
+      ctx.moveTo(this.x, this.y + offset);
+      ctx.lineTo(this.x, this.y - offset);
+      ctx.moveTo(this.x + offset * 0.75, this.y);
+      ctx.lineTo(this.x - offset * 0.75, this.y);
+
+      ctx.lineWidth = this.size * strokeVar * 0.50;
+      ctx.moveTo(this.x - offset * smallerRatio, this.y + offset * smallerRatio);
+      ctx.lineTo(this.x + offset * smallerRatio, this.y - offset * smallerRatio);
+      ctx.moveTo(this.x + offset * smallerRatio, this.y + offset * smallerRatio);
+      ctx.lineTo(this.x - offset * smallerRatio, this.y - offset * smallerRatio);
+      ctx.stroke();
+    }
+  }
+
+  resize();
+
+  // Setup
+
+  function reset() {
+
+  }
+
+  console.log(canvas.height);
+
+  stars.length = 0;
+  for (let i = 0; i < 500; i++) {
+    stars[i] = new Star(Math.random() * canvas.width, Math.random() * canvas.height, Math.random(), Math.random() * 5000, Math.random() * 360);
+  }
+  currentTime = lastTime = Date.now();
+
+  setInterval(draw, 35); // basically 30 fps
+
+  function draw() {
+    lastTime = currentTime;
+    currentTime = Date.now();
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // draw
+    stars.forEach(star => { star.show(); });
+    // rows[50].show();
+    if (stars[50] != undefined)
+    console.log(stars[50].time);
+  }
+
+  function resize() {
+    if (window.devicePixelRatio >= 1) {
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+    }
+
+    draw();
+  }
+
+
+</script>
